@@ -1,15 +1,17 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>MPSPK | Sijil Perakuan Vendor</title>
+
 </head>
 
 <body>
@@ -19,7 +21,9 @@
     <p>&nbsp;</p>
 
     <div class="text-center">
+
         <img class="w-25" src="{{public_path('mpspk.png')}}" alt="Logo MPSPK">
+
     </div>
 
     <p>&nbsp;</p>
@@ -35,19 +39,24 @@
         <tbody>
 
         <tr>
+
             <th scope="row">NO. RUJUKAN PENDAFTARAN</th>
             <td>MPSPK-XXXX-XXXX-XXXX</td>
+
         </tr>
         <tr>
+
             <th scope="row">TEMPOH KELAYAKAN</th>
             <td>03 Sep 2018 &ndash; 11 Dec 2018</td>
+
         </tr>
 
         </tbody>
 
     </table>
 
-    <p>Adalah dengan ini diperakui bahawa syarikat yang dinyatakan di bawah ini telah berdaftar dengan MAJLIS PERBANDARAN
+    <p>Adalah dengan ini diperakui bahawa syarikat yang dinyatakan di bawah ini telah berdaftar dengan MAJLIS
+        PERBANDARAN
         SUNGAI PETANI KEDAH dan layak untuk menyertai tawaran sebut harga / tender di MAJLIS PERBANDARAN SUNGAI PETANI
         KEDAH.</p>
 
@@ -68,8 +77,6 @@
 
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -79,5 +86,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+
 </body>
+
 </html>
