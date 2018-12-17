@@ -47,7 +47,7 @@
 
     </table>
 
-    <p>Adalah dengan ini diperakui bahawa vendor yang dinyatakan di bawah ini telah berdaftar dengan MAJLIS PERBANDARAN
+    <p>Adalah dengan ini diperakui bahawa syarikat yang dinyatakan di bawah ini telah berdaftar dengan MAJLIS PERBANDARAN
         SUNGAI PETANI KEDAH dan layak untuk menyertai tawaran sebut harga / tender di MAJLIS PERBANDARAN SUNGAI PETANI
         KEDAH.</p>
 

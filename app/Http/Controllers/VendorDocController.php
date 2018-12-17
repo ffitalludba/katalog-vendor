@@ -254,36 +254,31 @@ class VendorDocController extends Controller
      */
     public function show($id)
     {
+        // Get vendor tuple from table vendor_doc.
 
-        $vendor_tuple = DB::table('vendor_doc')->where('id', $id)
+        $vendorTuple = DB::table('vendor_doc')->where('id', $id)
             ->first();
 
-        $cidb_tuples = DB::table('cidb_details')
+        // Get CIDB tuples from table cidb_details.
+
+        $cidbTuples = DB::table('cidb_details')
             ->where('vd_id', '=', $id)
             ->join('cidb_ref', 'cidb_details.cidb_id', '=', 'cidb_ref.id')
             ->get();
 
+        // Get MOF tuples from table mof_details.
 
-        $cidb_details = [];
-
-        foreach ($cidb_tuples as $cidb_tuple) {
-
-            $cidb_details[$cidb_tuple->type]['grade'] = $cidb_tuple->grade;
-            $cidb_details[$cidb_tuple->type]['subtype'][] = $cidb_tuple->subtype;
-
-        }
-
-        $mof_tuples = DB::table('mof_details')->where('vd_id', '=', $id)
+        $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
             ->join('mof_ref', 'mof_details.mof_id', '=', 'mof_ref.id')
-            ->pluck('code');
+            ->pluck('description','code');
 
+        // Show page.
 
         return view('vendor_doc_show', [
-            'vendor' => $vendor_tuple,
-            'cidb_details' => $cidb_details,
-            'mof_details' => $mof_tuples
+            'vendor' => $vendorTuple,
+            'cidbTuples' => $cidbTuples,
+            'mofTuples' => $mofTuples
         ]);
-
     }
 
     /**
