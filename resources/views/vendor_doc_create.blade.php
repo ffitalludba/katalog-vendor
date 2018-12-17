@@ -355,7 +355,7 @@
 
                     {{--SSM Card--}}
 
-                    <div class="card  bg-light mb-3">
+                    <div class="card bg-light mb-3">
 
                         <div class="card-body">
 
@@ -455,7 +455,7 @@
 
                     {{--MOF Card--}}
 
-                    <div class="card  bg-light mb-3">
+                    <div class="card bg-light mb-3">
 
                         <div class="card-body">
 

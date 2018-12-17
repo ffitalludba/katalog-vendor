@@ -148,32 +148,55 @@
 <body>
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">MPSPK</a>
+
     <input class="form-control form-control-dark w-100" type="text" placeholder="Carian" aria-label="Search">
+
     <ul class="navbar-nav px-3">
+
         <li class="nav-item text-nowrap">
+
             <a class="nav-link" href="#">Log keluar</a>
+
         </li>
+
     </ul>
+
 </nav>
 
 <div class="container-fluid">
+
     <div class="row">
+
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+
             <div class="sidebar-sticky">
+
                 <ul class="nav flex-column">
+
                     <li class="nav-item">
+
                         <a class="nav-link active" href="{{route('vendor-doc.index')}}">
+
                             <span data-feather="home"></span>
                             Katalog
+
                         </a>
+
                     </li>
+
                     <li class="nav-item">
+
                         <a class="nav-link" href="{{route('vendor-doc.create')}}">
+
                             <span data-feather="file"></span>
                             Daftar
+
                         </a>
+
                     </li>
+
                 </ul>
 
             </div>
@@ -184,12 +207,19 @@
 
             <div
                 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
                 <h1 class="h2">@yield('title')</h1>
+
                 <div class="btn-toolbar mb-2 mb-md-0">
+
                     <div class="btn-group mr-2">
+
                         @yield('action')
+
                     </div>
+
                 </div>
+
             </div>
 
             <p>@yield('description')</p>
@@ -199,9 +229,11 @@
         </main>
 
         <footer class="footer">
+
             <div class="container">
                 &nbsp;
             </div>
+
         </footer>
 
     </div>

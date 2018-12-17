@@ -5,7 +5,7 @@
 @section('action')
 
     <a class="btn btn-sm btn-outline-secondary" href="{{route('vendor-certificate', ['id' => $vendor->id])}}"
-       role="button">Cetak Sijil</a>
+       role="button">Sijil Perakuan</a>
     <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Hapus</button>
 
 @endsection

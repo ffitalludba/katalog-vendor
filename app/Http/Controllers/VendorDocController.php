@@ -48,8 +48,10 @@ class VendorDocController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate all fields.
+
         $request->validate([
-            'syarikat' => 'required',
+            'syarikat' => 'required|unique:vendor_doc,name',
             'pegawai' => 'required',
             'alamat' => 'required',
             'alamat1' => 'nullable',
@@ -96,24 +98,11 @@ class VendorDocController extends Controller
             'pkkTamat' => 'nullable|required_if:daftarPkk,on|date|after:pkkMula',
         ]);
 
+        // Initialise table vendor_doc fields.
+
         $id = (string)Str::uuid();
 
-        $mofs = $request->input('mofs');
-
-        $cidbB = $request->input('cidbB');
-        $cidbBgred = ($request->input('cidbBgred') !== '(pilihan)') ? $request->input('cidbBgred') : null;
-
-        $cidbCe = $request->input('cidbCe');
-        $cidbCeGred = ($request->input('cidbCeGred') !== '(pilihan)') ? $request->input('cidbCeGred') : null;
-
-        $cidbE = $request->input('cidbE');
-        $cidbEgred = ($request->input('cidbEgred') !== '(pilihan)') ? $request->input('cidbEgred') : null;
-
-        $cidbMe = $request->input('cidbMe');
-        $cidbMeGred = ($request->input('cidbMeGred') !== '(pilihan)') ? $request->input('cidbMeGred') : null;
-
-        $cidbP = $request->input('cidbP');
-        $cidbPgred = ($request->input('cidbPgred') !== '(pilihan)') ? $request->input('cidbPgred') : null;
+        // Insert vendor_doc data.
 
         DB::table('vendor_doc')->insert([
             'id' => $id,
@@ -143,9 +132,11 @@ class VendorDocController extends Controller
             'mof_thru' => $request->input('mofTamat')
         ]);
 
-        if ($mofs !== null) {
+        // Insert mof_details data.
 
-            foreach ($mofs as $mof) {
+        if ($request->input('daftarMof') === 'on') {
+
+            foreach ($request->input('mofs') as $mof) {
 
                 $mof_id = (string)Str::uuid();
 
@@ -159,90 +150,98 @@ class VendorDocController extends Controller
 
         }
 
-        if ($cidbB !== null && $cidbBgred !== null) {
+        // Insert cidb_details data.
 
-            foreach ($cidbB as $b) {
+        if ($request->input('daftarCidb') === 'on') {
 
-                $cidb_id = (string)Str::uuid();
+            if ($request->input('cidbBidangB') === 'on') {
 
-                DB::table('cidb_details')->insert([
-                    'id' => $cidb_id,
-                    'vd_id' => $id,
-                    'cidb_id' => $b,
-                    'grade' => $cidbBgred
-                ]);
+                foreach ($request->input('cidbBidangBkod') as $cidbBidangBkod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangBkod,
+                        'grade' => $request->input('cidbBidangBgred')
+                    ]);
+
+                }
+
+            }
+
+            if ($request->input('cidbBidangCe') === 'on') {
+
+                foreach ($request->input('cidbBidangCeKod') as $cidbBidangCeKod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangCeKod,
+                        'grade' => $request->input('cidbBidangCeGred')
+                    ]);
+
+                }
+
+            }
+
+            if ($request->input('cidbBidangE') === 'on') {
+
+                foreach ($request->input('cidbBidangEkod') as $cidbBidangEkod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangEkod,
+                        'grade' => $request->input('cidbBidangEgred')
+                    ]);
+
+                }
+
+            }
+
+            if ($request->input('cidbBidangMe') === 'on') {
+
+                foreach ($request->input('cidbBidangMeKod') as $cidbBidangMeKod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangMeKod,
+                        'grade' => $request->input('cidbBidangMeGred')
+                    ]);
+
+                }
+
+            }
+
+            if ($request->input('cidbBidangP') === 'on') {
+
+                foreach ($request->input('cidbBidangPkod') as $cidbBidangPkod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangPkod,
+                        'grade' => $request->input('cidbBidangPgred')
+                    ]);
+
+                }
 
             }
 
         }
 
-        if ($cidbCe !== null && $cidbCeGred !== null) {
-
-            foreach ($cidbCe as $c) {
-
-                $cidb_id = (string)Str::uuid();
-
-                DB::table('cidb_details')->insert([
-                    'id' => $cidb_id,
-                    'vd_id' => $id,
-                    'cidb_id' => $c,
-                    'grade' => $cidbCeGred
-                ]);
-
-            }
-
-        }
-
-        if ($cidbE !== null && $cidbEgred !== null) {
-
-            foreach ($cidbE as $e) {
-
-                $cidb_id = (string)Str::uuid();
-
-                DB::table('cidb_details')->insert([
-                    'id' => $cidb_id,
-                    'vd_id' => $id,
-                    'cidb_id' => $e,
-                    'grade' => $cidbEgred
-                ]);
-
-            }
-
-        }
-
-        if ($cidbMe !== null && $cidbMeGred !== null) {
-
-            foreach ($cidbMe as $me) {
-
-                $cidb_id = (string)Str::uuid();
-
-                DB::table('cidb_details')->insert([
-                    'id' => $cidb_id,
-                    'vd_id' => $id,
-                    'cidb_id' => $me,
-                    'grade' => $cidbMeGred
-                ]);
-
-            }
-
-        }
-
-        if ($cidbP !== null && $cidbPgred !== null) {
-
-            foreach ($cidbP as $p) {
-
-                $cidb_id = (string)Str::uuid();
-
-                DB::table('cidb_details')->insert([
-                    'id' => $cidb_id,
-                    'vd_id' => $id,
-                    'cidb_id' => $p,
-                    'grade' => $cidbPgred
-                ]);
-
-            }
-
-        }
+        // Redirect to index.
 
         return redirect()->route('vendor-doc.index');
     }
