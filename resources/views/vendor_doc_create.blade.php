@@ -709,11 +709,24 @@
 
                                                 <div class="form-check form-check-inline">
 
-                                                    <input class="form-check-input" type="checkbox" id="cidbBidangB"
-                                                           name="cidbBidangB"
-                                                           data-toggle="collapse"
-                                                           data-target="#cidbBidangBpanel" {{(old('cidbBidangB') === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangB">B</label>
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangB') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangB"
+                                                        name="cidbBidangB"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangBpanel" {{(old('cidbBidangB') === 'on') ? 'checked' : ''}}>
+
+                                                    <label class="form-check-label" for="cidbBidangB">B&nbsp;</label>
+
+                                                    @if($errors->has('cidbBidangB'))
+
+                                                        <div class="invalid-feedback">
+
+                                                            {{$errors->first('cidbBidangB')}}
+
+                                                        </div>
+
+                                                    @endif
 
                                                 </div>
 
@@ -733,6 +746,7 @@
                                                     <select
                                                         class="custom-select {{$errors->has('cidbBidangBgred') ? 'is-invalid' : ''}}"
                                                         id="cidbBidangBgred" name="cidbBidangBgred">
+
                                                         <option {{(old('cidbBidangBgred') === null) ? 'selected' : ''}}></option>
                                                         <option {{(old('cidbBidangBgred') === 'G1') ? 'selected' : ''}}>
                                                             G1
@@ -755,6 +769,7 @@
                                                         <option {{(old('cidbBidangBgred') === 'G7') ? 'selected' : ''}}>
                                                             G7
                                                         </option>
+
                                                     </select>
 
                                                     @if($errors->has('cidbBidangBgred'))
@@ -837,11 +852,23 @@
 
                                                 <div class="form-check form-check-inline">
 
-                                                    <input class="form-check-input" type="checkbox" id="cidbBidangCe"
-                                                           name="cidbBidangCe"
-                                                           data-toggle="collapse"
-                                                           data-target="#cidbBidangCePanel" {{(old('cidbBidangCe') === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangCe">CE</label>
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangCe') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangCe"
+                                                        name="cidbBidangCe"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangCePanel" {{(old('cidbBidangCe') === 'on') ? 'checked' : ''}}>
+                                                    <label class="form-check-label" for="cidbBidangCe">CE&nbsp;</label>
+
+                                                    @if($errors->has('cidbBidangCe'))
+
+                                                        <div class="invalid-feedback">
+
+                                                            {{$errors->first('cidbBidangCe')}}
+
+                                                        </div>
+
+                                                    @endif
 
                                                 </div>
 
@@ -965,11 +992,23 @@
 
                                                 <div class="form-check form-check-inline">
 
-                                                    <input class="form-check-input" type="checkbox" id="cidbBidangE"
-                                                           name="cidbBidangE"
-                                                           data-toggle="collapse"
-                                                           data-target="#cidbBidangEpanel" {{(old('cidbBidangE') === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangE">E</label>
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangE') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangE"
+                                                        name="cidbBidangE"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangEpanel" {{(old('cidbBidangE') === 'on') ? 'checked' : ''}}>
+                                                    <label class="form-check-label" for="cidbBidangE">E&nbsp;</label>
+
+                                                    @if($errors->has('cidbBidangE'))
+
+                                                        <div class="invalid-feedback">
+
+                                                            {{$errors->first('cidbBidangE')}}
+
+                                                        </div>
+
+                                                    @endif
 
                                                 </div>
 
@@ -1093,11 +1132,23 @@
 
                                                 <div class="form-check form-check-inline">
 
-                                                    <input class="form-check-input" type="checkbox" id="cidbBidangMe"
-                                                           name="cidbBidangMe"
-                                                           data-toggle="collapse"
-                                                           data-target="#cidbBidangMePanel" {{(old('cidbBidangMe') === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangMe">ME</label>
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangMe') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangMe"
+                                                        name="cidbBidangMe"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangMePanel" {{(old('cidbBidangMe') === 'on') ? 'checked' : ''}}>
+                                                    <label class="form-check-label" for="cidbBidangMe">ME&nbsp;</label>
+
+                                                    @if($errors->has('cidbBidangMe'))
+
+                                                        <div class="invalid-feedback">
+
+                                                            {{$errors->first('cidbBidangMe')}}
+
+                                                        </div>
+
+                                                    @endif
 
                                                 </div>
 
@@ -1221,11 +1272,23 @@
 
                                                 <div class="form-check form-check-inline">
 
-                                                    <input class="form-check-input" type="checkbox" id="cidbBidangP"
-                                                           name="cidbBidangP"
-                                                           data-toggle="collapse"
-                                                           data-target="#cidbBidangPpanel" {{(old('cidbBidangP') === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangP">P</label>
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangP') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangP"
+                                                        name="cidbBidangP"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangPpanel" {{(old('cidbBidangP') === 'on') ? 'checked' : ''}}>
+                                                    <label class="form-check-label" for="cidbBidangP">P&nbsp;</label>
+
+                                                    @if($errors->has('cidbBidangP'))
+
+                                                        <div class="invalid-feedback">
+
+                                                            {{$errors->first('cidbBidangP')}}
+
+                                                        </div>
+
+                                                    @endif
 
                                                 </div>
 

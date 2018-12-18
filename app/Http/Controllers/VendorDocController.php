@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
@@ -17,11 +18,13 @@ class VendorDocController extends Controller
      */
     public function index()
     {
+        // Get tuple from table vendor_doc.
 
         $vendors = DB::table('vendor_doc')->get();
 
-        return view('vendor_doc_index', ['vendors' => $vendors]);
+        // Return index page.
 
+        return view('vendor_doc_index', ['vendors' => $vendors]);
     }
 
     /**
@@ -31,13 +34,17 @@ class VendorDocController extends Controller
      */
     public function create()
     {
+        // Get tuples from mof_ref table.
 
         $mof_tuples = DB::table('mof_ref')->get();
 
+        // Get tuples from cidb-ref table.
+
         $cidb_tuples = DB::table('cidb_ref')->get();
 
-        return view('vendor_doc_create', ['mofs' => $mof_tuples, 'cidbs' => $cidb_tuples]);
+        // Return create vendor page.
 
+        return view('vendor_doc_create', ['mofs' => $mof_tuples, 'cidbs' => $cidb_tuples]);
     }
 
     /**
@@ -48,9 +55,9 @@ class VendorDocController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate all fields.
+        // Declare validation rules.
 
-        $request->validate([
+        $rules = [
             'syarikat' => 'required|unique:vendor_doc,name',
             'pegawai' => 'required',
             'alamat' => 'required',
@@ -96,13 +103,49 @@ class VendorDocController extends Controller
             'sijilPkk' => 'nullable|required_if:daftarPkk,on',
             'pkkMula' => 'nullable|required_if:daftarPkk,on|date',
             'pkkTamat' => 'nullable|required_if:daftarPkk,on|date|after:pkkMula',
-        ]);
+        ];
 
-        // Initialise table vendor_doc fields.
+        // Declare optional validation rules.
+
+        $rulesCidbBidangB = 'required_without_all:cidbBidangCe,cidbBidangE,cidbBidangMe,cidbBidangP';
+        $rulesCidbBidangCe = 'required_without_all:cidbBidangB,cidbBidangE,cidbBidangMe,cidbBidangP';
+        $rulesCidbBidangE = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangMe,cidbBidangP';
+        $rulesCidbBidangMe = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangP';
+        $rulesCidbBidangP = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangMe';
+
+        // Setup validation.
+
+        Validator::make($request->all(), $rules)->sometimes('cidbBidangB', $rulesCidbBidangB, function ($input) {
+
+            return $input->daftarCidb === 'on';
+
+            // Setup optional validations.
+
+        })->sometimes('cidbBidangCe', $rulesCidbBidangCe, function ($input) {
+
+            return $input->daftarCidb === 'on';
+
+        })->sometimes('cidbBidangE', $rulesCidbBidangE, function ($input) {
+
+            return $input->daftarCidb === 'on';
+
+        })->sometimes('cidbBidangMe', $rulesCidbBidangMe, function ($input) {
+
+            return $input->daftarCidb === 'on';
+
+        })->sometimes('cidbBidangP', $rulesCidbBidangP, function ($input) {
+
+            return $input->daftarCidb === 'on';
+
+            // Perform validation.
+
+        })->validate();
+
+        // Initialise new Id for table vendor_doc.
 
         $id = (string)Str::uuid();
 
-        // Insert vendor_doc data.
+        // Insert tuple into vendor_doc table.
 
         DB::table('vendor_doc')->insert([
             'id' => $id,
@@ -132,7 +175,7 @@ class VendorDocController extends Controller
             'mof_thru' => $request->input('mofTamat')
         ]);
 
-        // Insert mof_details data.
+        // Insert mof_details tuples.
 
         if ($request->input('daftarMof') === 'on') {
 
@@ -150,9 +193,11 @@ class VendorDocController extends Controller
 
         }
 
-        // Insert cidb_details data.
+        // Insert cidb_details tuples for B, CE, E, ME and P.
 
         if ($request->input('daftarCidb') === 'on') {
+
+            // B.
 
             if ($request->input('cidbBidangB') === 'on') {
 
@@ -171,6 +216,8 @@ class VendorDocController extends Controller
 
             }
 
+            // CE.
+
             if ($request->input('cidbBidangCe') === 'on') {
 
                 foreach ($request->input('cidbBidangCeKod') as $cidbBidangCeKod) {
@@ -187,6 +234,8 @@ class VendorDocController extends Controller
                 }
 
             }
+
+            // E.
 
             if ($request->input('cidbBidangE') === 'on') {
 
@@ -205,6 +254,8 @@ class VendorDocController extends Controller
 
             }
 
+            // ME.
+
             if ($request->input('cidbBidangMe') === 'on') {
 
                 foreach ($request->input('cidbBidangMeKod') as $cidbBidangMeKod) {
@@ -221,6 +272,8 @@ class VendorDocController extends Controller
                 }
 
             }
+
+            // P.
 
             if ($request->input('cidbBidangP') === 'on') {
 
@@ -270,7 +323,7 @@ class VendorDocController extends Controller
 
         $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
             ->join('mof_ref', 'mof_details.mof_id', '=', 'mof_ref.id')
-            ->pluck('description','code');
+            ->pluck('description', 'code');
 
         // Show page.
 
@@ -289,9 +342,13 @@ class VendorDocController extends Controller
      */
     public function destroy($id)
     {
+        // Delete tuples in table cidb_details, mof_details and vendor_doc.
+
         DB::table('cidb_details')->where('vd_id', '=', $id)->delete();
         DB::table('mof_details')->where('vd_id', '=', $id)->delete();
         DB::table('vendor_doc')->where('id', '=', $id)->delete();
+
+        // Return to index page.
 
         return redirect()->route('vendor-doc.index');
     }
