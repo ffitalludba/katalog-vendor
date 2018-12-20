@@ -3,7 +3,9 @@
 @section('style')
 
     @parent
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"/>
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
 
@@ -1510,7 +1512,7 @@
 
                     <div class="form-row">
 
-                        <button type="submit" class="btn btn-primary">Hantar</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
 
                     </div>
 
@@ -1529,9 +1531,13 @@
 @section('script')
 
     @parent
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
     <script>
+
         (function ($) {
+
             $.fn.selectpicker.defaults = {
                 noneSelectedText: 'Tidak ada yang dipilih',
                 noneResultsText: 'Tidak ada yang sama {0}',
@@ -1541,7 +1547,9 @@
                 deselectAllText: 'Hapus Semua',
                 multipleSeparator: ', '
             };
+
         })(jQuery);
+
     </script>
 
 @endsection

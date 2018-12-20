@@ -13,10 +13,14 @@
 
 Route::get('/', function () {
     return redirect()->route('vendor-doc.index');
-});
+})->middleware('auth');
 
-Route::resource('vendor-doc', 'VendorDocController')->except([
-    'edit', 'update'
-]);
+Route::resource('vendor-doc', 'VendorDocController')
+    ->except(['edit', 'update'])
+    ->middleware('auth');
 
-Route::get('/vendor-certificate/{id}', 'VendorCertificate')->name('vendor-certificate');
+Route::get('/vendor-certificate/{id}', 'VendorCertificate')
+    ->name('vendor-certificate')
+    ->middleware('auth');
+
+Auth::routes();

@@ -20,8 +20,7 @@ class VendorCertificate extends Controller
             ->first();
 
         $pdf = PDF::loadView('vendor_doc_certificate', [
-            'vendorName' => $vendorTuple->name,
-
+            'vendor' => $vendorTuple,
         ]);
 
         return $pdf->stream();

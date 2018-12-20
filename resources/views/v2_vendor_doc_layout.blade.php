@@ -4,12 +4,16 @@
 <head>
 
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta name="description" content="">
+
     <meta name="author" content="">
+
     {{--<link rel="icon" href="../../../../favicon.ico">--}}
 
-    <title>MPSPK | Katalog Vendor</title>
+    <title>MPSPK | Maklumat Kontraktor & Pembekal</title>
 
     @section('style')
 
@@ -150,17 +154,51 @@
 
 <body>
 
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top flex-md-nowrap p-0 shadow">
 
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">MPSPK</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">MPSPK | Kontraktor & Pembekal</a>
 
-    <ul class="navbar-nav px-3">
+    <ul class="navbar-nav ml-auto px-3">
 
-        <li class="nav-item text-nowrap">
+        @guest
 
-            <a class="nav-link" href="#">Log keluar</a>
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            </li>
 
-        </li>
+            @if (Route::has('register'))
+
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                </li>
+
+            @endif
+
+        @else
+
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false" v-pre>
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        {{ __('Log Keluar') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+
+                </div>
+
+            </li>
+
+        @endguest
 
     </ul>
 
@@ -182,7 +220,7 @@
                            href="{{route('vendor-doc.index')}}">
 
                             <span data-feather="home"></span>
-                            Katalog
+                            Senarai
 
                         </a>
 
@@ -248,9 +286,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
             integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
             crossorigin="anonymous"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>

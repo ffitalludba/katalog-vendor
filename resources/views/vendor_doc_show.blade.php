@@ -59,7 +59,7 @@
 
                     @if($vendor->address1 !== null)
 
-                        <dt class="col-sm-4">Alamat (tambahan)</dt>
+                        <dt class="col-sm-4">Alamat (1)</dt>
                         <dd class="col-sm-8">{{title_case($vendor->address1)}}</dd>
 
                     @endif
