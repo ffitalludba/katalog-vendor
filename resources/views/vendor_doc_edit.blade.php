@@ -495,7 +495,9 @@
 
                             {{--Panel MOF--}}
 
-                            <div class="collapse {{(old('daftarMof') === 'on') ? 'show' : ''}}" id="panelMof">
+                            <div
+                                class="collapse {{(old('daftarMof',(optional($vendor)->mof_id !== null ? 'on' : '')) === 'on') ? 'show' : ''}}"
+                                id="panelMof">
 
                                 <div class="form-row">
 
@@ -505,7 +507,8 @@
 
                                         <input id="inputMOF" name="sijilMof" type="text"
                                                class="form-control {{$errors->has('sijilMof') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil MOF" value="{{old('sijilMof')}}">
+                                               placeholder="Nombor sijil MOF"
+                                               value="{{old('sijilMof',optional($vendor)->mof_id)}}">
 
                                         @if($errors->has('sijilMof'))
 
@@ -525,7 +528,7 @@
 
                                         <input id="inputMOFMula" name="mofMula" type="date"
                                                class="form-control {{$errors->has('mofMula') ? 'is-invalid' : ''}}"
-                                               value="{{old('mofMula')}}">
+                                               value="{{old('mofMula',date('Y-m-d',strtotime(optional($vendor)->mof_start)))}}">
 
                                         @if($errors->has('mofMula'))
 
@@ -545,7 +548,7 @@
 
                                         <input id="inputMOFTamat" name="mofTamat" type="date"
                                                class="form-control {{$errors->has('mofTamat') ? 'is-invalid' : ''}}"
-                                               value="{{old('mofTamat')}}">
+                                               value="{{old('mofTamat',date('Y-m-d',strtotime(optional($vendor)->mof_thru)))}}">
 
                                         @if($errors->has('mofTamat'))
 
@@ -573,7 +576,7 @@
                                                 multiple data-live-search="true" data-size="7" data-actions-box="true"
                                                 data-style="btn">
 
-                                            @if(old('mofs') === null)
+                                            @if($mofTuples === null && old('mofs') === null)
 
                                                 @foreach ($mofs as $mof)
 
@@ -588,7 +591,7 @@
 
                                                     <option value="{{$mof->id}}"
                                                             data-subtext="{{$mof->description}}"
-                                                        {{in_array($mof->id, old('mofs')) ? 'selected' : ''}}>{{$mof->code}}</option>
+                                                        {{in_array($mof->id,old('mofs',optional($mofTuples)->toArray())) ? 'selected' : ''}}>{{$mof->code}}</option>
 
                                                 @endforeach
 
@@ -618,915 +621,915 @@
 
                     {{--CIDB Card--}}
 
-                    {{--<div class="card bg-light mb-3">--}}
+                    <div class="card bg-light mb-3">
 
-                    {{--<div class="card-body">--}}
+                        <div class="card-body">
 
-                    {{--Suis panel CIDB--}}
+                            {{--Suis panel CIDB--}}
 
-                    {{--<div class="form-row">--}}
+                            <div class="form-row">
 
-                    {{--<div class="form-group">--}}
+                                <div class="form-group">
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                    <div class="form-check form-check-inline">
 
-                    {{--<input class="form-check-input" type="checkbox" id="daftarCidb"--}}
-                    {{--name="daftarCidb"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#panelCidb" {{(old('daftarCidb') === 'on') ? 'checked' : ''}}>--}}
-                    {{--<label class="form-check-label font-weight-bold" for="daftarCidb">Sijil--}}
-                    {{--CIDB</label>--}}
+                                        <input class="form-check-input" type="checkbox" id="daftarCidb"
+                                               name="daftarCidb"
+                                               data-toggle="collapse"
+                                               data-target="#panelCidb" {{(old('daftarCidb',(optional($vendor)->cidb_id !== null ? 'on' : '')) === 'on') ? 'checked' : ''}}>
+                                        <label class="form-check-label font-weight-bold" for="daftarCidb">Sijil
+                                            CIDB</label>
 
-                    {{--</div>--}}
+                                    </div>
 
-                    {{--</div>--}}
+                                </div>
 
-                    {{--</div>--}}
+                            </div>
 
-                    {{--Panel CIDB--}}
+                            {{--Panel CIDB--}}
 
-                    {{--<div class="collapse {{(old('daftarCidb') === 'on') ? 'show' : ''}}" id="panelCidb">--}}
+                            <div class="collapse {{(old('daftarCidb') === 'on') ? 'show' : ''}}" id="panelCidb">
 
-                    {{--<div class="form-row">--}}
+                                <div class="form-row">
 
-                    {{--<div class="form-group col-md-4">--}}
+                                    <div class="form-group col-md-4">
 
-                    {{--<label for="inputCIDB"># Sijil</label>--}}
+                                        <label for="inputCIDB"># Sijil</label>
 
-                    {{--<input id="inputCIDB" name="sijilCidb" type="text"--}}
-                    {{--class="form-control {{$errors->has('sijilCidb') ? 'is-invalid' : ''}}"--}}
-                    {{--placeholder="Nombor sijil CIDB" value="{{old('sijilCidb')}}">--}}
+                                        <input id="inputCIDB" name="sijilCidb" type="text"
+                                               class="form-control {{$errors->has('sijilCidb') ? 'is-invalid' : ''}}"
+                                               placeholder="Nombor sijil CIDB" value="{{old('sijilCidb')}}">
 
-                    {{--@if($errors->has('sijilCidb'))--}}
+                                        @if($errors->has('sijilCidb'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                            <div class="invalid-feedback">
 
-                    {{--{{$errors->first('sijilCidb')}}--}}
+                                                {{$errors->first('sijilCidb')}}
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--@endif--}}
+                                        @endif
 
-                    {{--</div>--}}
+                                    </div>
 
-                    {{--<div class="form-group col-md-4">--}}
+                                    <div class="form-group col-md-4">
 
-                    {{--<label for="inputCIDBMula">Mula</label>--}}
+                                        <label for="inputCIDBMula">Mula</label>
 
-                    {{--<input id="inputCIDBMula" name="cidbMula" type="date"--}}
-                    {{--class="form-control {{$errors->has('cidbMula') ? 'is-invalid' : ''}}"--}}
-                    {{--value="{{old('cidbMula')}}">--}}
+                                        <input id="inputCIDBMula" name="cidbMula" type="date"
+                                               class="form-control {{$errors->has('cidbMula') ? 'is-invalid' : ''}}"
+                                               value="{{old('cidbMula')}}">
 
-                    {{--@if($errors->has('cidbMula'))--}}
+                                        @if($errors->has('cidbMula'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                            <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbMula')}}--}}
+                                                {{$errors->first('cidbMula')}}
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--@endif--}}
+                                        @endif
 
-                    {{--</div>--}}
+                                    </div>
 
-                    {{--<div class="form-group col-md-4">--}}
+                                    <div class="form-group col-md-4">
 
-                    {{--<label for="inputCIDBTamat">Tamat</label>--}}
+                                        <label for="inputCIDBTamat">Tamat</label>
 
-                    {{--<input id="inputCIDBTamat" name="cidbTamat" type="date"--}}
-                    {{--class="form-control {{$errors->has('cidbTamat') ? 'is-invalid' : ''}}"--}}
-                    {{--value="{{old('cidbTamat')}}">--}}
+                                        <input id="inputCIDBTamat" name="cidbTamat" type="date"
+                                               class="form-control {{$errors->has('cidbTamat') ? 'is-invalid' : ''}}"
+                                               value="{{old('cidbTamat')}}">
 
-                    {{--@if($errors->has('cidbTamat'))--}}
+                                        @if($errors->has('cidbTamat'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                            <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbTamat')}}--}}
+                                                {{$errors->first('cidbTamat')}}
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--@endif--}}
+                                        @endif
 
-                    {{--</div>--}}
+                                    </div>
 
-                    {{--</div>--}}
+                                </div>
 
-                    {{--Card bidang 'B'--}}
+                                {{--Card bidang 'B'--}}
 
-                    {{--<div class="card mb-3">--}}
+                                <div class="card mb-3">
 
-                    {{--<div class="card-body">--}}
+                                    <div class="card-body">
 
-                    {{--<div class="form-row">--}}
+                                        <div class="form-row">
 
-                    {{--<div class="form-group col-md-12">--}}
+                                            <div class="form-group col-md-12">
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                                <div class="form-check form-check-inline">
 
-                    {{--<input--}}
-                    {{--class="form-check-input {{$errors->has('cidbBidangB') ? 'is-invalid' : ''}}"--}}
-                    {{--type="checkbox" id="cidbBidangB"--}}
-                    {{--name="cidbBidangB"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#cidbBidangBpanel" {{(old('cidbBidangB') === 'on') ? 'checked' : ''}}>--}}
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangB') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangB"
+                                                        name="cidbBidangB"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangBpanel" {{(old('cidbBidangB') === 'on') ? 'checked' : ''}}>
 
-                    {{--<label class="form-check-label" for="cidbBidangB">B&nbsp;</label>--}}
+                                                    <label class="form-check-label" for="cidbBidangB">B&nbsp;</label>
 
-                    {{--@if($errors->has('cidbBidangB'))--}}
+                                                    @if($errors->has('cidbBidangB'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                                        <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbBidangB')}}--}}
+                                                            {{$errors->first('cidbBidangB')}}
 
-                    {{--</div>--}}
+                                                        </div>
 
-                    {{--@endif--}}
+                                                    @endif
 
-                    {{--</div>--}}
+                                                </div>
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--</div>--}}
+                                        </div>
 
-                    {{--<div id="cidbBidangBpanel"--}}
-                    {{--class="collapse {{(old('cidbBidangB') === 'on') ? 'show' : ''}}">--}}
+                                        <div id="cidbBidangBpanel"
+                                             class="collapse {{(old('cidbBidangB') === 'on') ? 'show' : ''}}">
 
-                    {{--<div class="form-row">--}}
+                                            <div class="form-row">
 
-                    {{--<div class="form-group col-md-6">--}}
+                                                <div class="form-group col-md-6">
 
-                    {{--<label for="cidbBidangBgred">Gred</label>--}}
+                                                    <label for="cidbBidangBgred">Gred</label>
 
-                    {{--<select--}}
-                    {{--class="custom-select {{$errors->has('cidbBidangBgred') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangBgred" name="cidbBidangBgred">--}}
+                                                    <select
+                                                        class="custom-select {{$errors->has('cidbBidangBgred') ? 'is-invalid' : ''}}"
+                                                        id="cidbBidangBgred" name="cidbBidangBgred">
 
-                    {{--<option {{(old('cidbBidangBgred') === null) ? 'selected' : ''}}></option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G1') ? 'selected' : ''}}>--}}
-                    {{--G1--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G2') ? 'selected' : ''}}>--}}
-                    {{--G2--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G3') ? 'selected' : ''}}>--}}
-                    {{--G3--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G4') ? 'selected' : ''}}>--}}
-                    {{--G4--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G5') ? 'selected' : ''}}>--}}
-                    {{--G5--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G6') ? 'selected' : ''}}>--}}
-                    {{--G6--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangBgred') === 'G7') ? 'selected' : ''}}>--}}
-                    {{--G7--}}
-                    {{--</option>--}}
+                                                        <option {{(old('cidbBidangBgred') === null) ? 'selected' : ''}}></option>
+                                                        <option {{(old('cidbBidangBgred') === 'G1') ? 'selected' : ''}}>
+                                                            G1
+                                                        </option>
+                                                        <option {{(old('cidbBidangBgred') === 'G2') ? 'selected' : ''}}>
+                                                            G2
+                                                        </option>
+                                                        <option {{(old('cidbBidangBgred') === 'G3') ? 'selected' : ''}}>
+                                                            G3
+                                                        </option>
+                                                        <option {{(old('cidbBidangBgred') === 'G4') ? 'selected' : ''}}>
+                                                            G4
+                                                        </option>
+                                                        <option {{(old('cidbBidangBgred') === 'G5') ? 'selected' : ''}}>
+                                                            G5
+                                                        </option>
+                                                        <option {{(old('cidbBidangBgred') === 'G6') ? 'selected' : ''}}>
+                                                            G6
+                                                        </option>
+                                                        <option {{(old('cidbBidangBgred') === 'G7') ? 'selected' : ''}}>
+                                                            G7
+                                                        </option>
 
-                    {{--</select>--}}
+                                                    </select>
 
-                    {{--@if($errors->has('cidbBidangBgred'))--}}
+                                                    @if($errors->has('cidbBidangBgred'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                                        <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbBidangBgred')}}--}}
+                                                            {{$errors->first('cidbBidangBgred')}}
 
-                    {{--</div>--}}
+                                                        </div>
 
-                    {{--@endif--}}
+                                                    @endif
 
-                    {{--</div>--}}
+                                                </div>
 
-                    {{--<div class="form-group col-md-6">--}}
+                                                <div class="form-group col-md-6">
 
-                    {{--<label for="cidbBidangBkod">Kod Bidang</label>--}}
+                                                    <label for="cidbBidangBkod">Kod Bidang</label>
 
-                    {{--<select--}}
-                    {{--class="selectpicker form-control {{$errors->has('cidbBidangBkod') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangBkod" name="cidbBidangBkod[]"--}}
-                    {{--multiple data-live-search="true" data-size="7"--}}
-                    {{--data-actions-box="true"--}}
-                    {{--data-style="btn">--}}
+                                                    <select
+                                                        class="selectpicker form-control {{$errors->has('cidbBidangBkod') ? 'is-invalid' : ''}}"
+                                                        id="cidbBidangBkod" name="cidbBidangBkod[]"
+                                                        multiple data-live-search="true" data-size="7"
+                                                        data-actions-box="true"
+                                                        data-style="btn">
 
-                    {{--@foreach ($cidbs as $cidb)--}}
+                                                        @foreach ($cidbs as $cidb)
 
-                    {{--@if ($cidb->type !== 'B')--}}
+                                                            @if ($cidb->type !== 'B')
 
-                    {{--@continue--}}
+                                                                @continue
 
-                    {{--@endif--}}
+                                                            @endif
 
-                    {{--@if(old('cidbBidangBkod') === null)--}}
+                                                            @if(old('cidbBidangBkod') === null)
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
+                                                                <option value="{{$cidb->id}}"
+                                                                        data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
 
-                    {{--@else--}}
+                                                            @else
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}"--}}
-                    {{--{{in_array($cidb->id, old('cidbBidangBkod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
+                                                                <option value="{{$cidb->id}}"
+                                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                                    {{in_array($cidb->id, old('cidbBidangBkod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                    {{--@endif--}}
+                                                            @endif
 
-                    {{--@endforeach--}}
+                                                        @endforeach
 
-                    {{--</select>--}}
+                                                    </select>
 
-                    {{--@if($errors->has('cidbBidangBkod'))--}}
+                                                    @if($errors->has('cidbBidangBkod'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                                        <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbBidangBkod')}}--}}
+                                                            {{$errors->first('cidbBidangBkod')}}
 
-                    {{--</div>--}}
+                                                        </div>
 
-                    {{--@endif--}}
+                                                    @endif
 
-                    {{--</div>--}}
+                                                </div>
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--</div>--}}
+                                        </div>
 
-                    {{--</div>--}}
+                                    </div>
 
-                    {{--</div>--}}
+                                </div>
 
-                    {{--Card bidang 'CE'--}}
+                                {{--Card bidang 'CE'--}}
 
-                    {{--<div class="card mb-3">--}}
+                                <div class="card mb-3">
 
-                    {{--<div class="card-body">--}}
+                                    <div class="card-body">
 
-                    {{--<div class="form-row">--}}
+                                        <div class="form-row">
 
-                    {{--<div class="form-group col-md-12">--}}
+                                            <div class="form-group col-md-12">
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                                <div class="form-check form-check-inline">
 
-                    {{--<input--}}
-                    {{--class="form-check-input {{$errors->has('cidbBidangCe') ? 'is-invalid' : ''}}"--}}
-                    {{--type="checkbox" id="cidbBidangCe"--}}
-                    {{--name="cidbBidangCe"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#cidbBidangCePanel" {{(old('cidbBidangCe') === 'on') ? 'checked' : ''}}>--}}
-                    {{--<label class="form-check-label" for="cidbBidangCe">CE&nbsp;</label>--}}
+                                                    <input
+                                                        class="form-check-input {{$errors->has('cidbBidangCe') ? 'is-invalid' : ''}}"
+                                                        type="checkbox" id="cidbBidangCe"
+                                                        name="cidbBidangCe"
+                                                        data-toggle="collapse"
+                                                        data-target="#cidbBidangCePanel" {{(old('cidbBidangCe') === 'on') ? 'checked' : ''}}>
+                                                    <label class="form-check-label" for="cidbBidangCe">CE&nbsp;</label>
 
-                    {{--@if($errors->has('cidbBidangCe'))--}}
+                                                    @if($errors->has('cidbBidangCe'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                                        <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbBidangCe')}}--}}
+                                                            {{$errors->first('cidbBidangCe')}}
 
-                    {{--</div>--}}
+                                                        </div>
 
-                    {{--@endif--}}
+                                                    @endif
 
-                    {{--</div>--}}
+                                                </div>
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--</div>--}}
+                                        </div>
 
-                    {{--<div id="cidbBidangCePanel"--}}
-                    {{--class="collapse {{(old('cidbBidangCe') === 'on') ? 'show' : ''}}">--}}
+                                        <div id="cidbBidangCePanel"
+                                             class="collapse {{(old('cidbBidangCe') === 'on') ? 'show' : ''}}">
 
-                    {{--<div class="form-row">--}}
+                                            <div class="form-row">
 
-                    {{--<div class="form-group col-md-6">--}}
+                                                <div class="form-group col-md-6">
 
-                    {{--<label for="cidbBidangCeGred">Gred</label>--}}
+                                                    <label for="cidbBidangCeGred">Gred</label>
 
-                    {{--<select--}}
-                    {{--class="custom-select {{$errors->has('cidbBidangCeGred') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangCeGred" name="cidbBidangCeGred">--}}
-                    {{--<option {{(old('cidbBidangCeGred') === null) ? 'selected' : ''}}></option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G1') ? 'selected' : ''}}>--}}
-                    {{--G1--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G2') ? 'selected' : ''}}>--}}
-                    {{--G2--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G3') ? 'selected' : ''}}>--}}
-                    {{--G3--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G4') ? 'selected' : ''}}>--}}
-                    {{--G4--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G5') ? 'selected' : ''}}>--}}
-                    {{--G5--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G6') ? 'selected' : ''}}>--}}
-                    {{--G6--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangCeGred') === 'G7') ? 'selected' : ''}}>--}}
-                    {{--G7--}}
-                    {{--</option>--}}
-                    {{--</select>--}}
+                                                    <select
+                                                        class="custom-select {{$errors->has('cidbBidangCeGred') ? 'is-invalid' : ''}}"
+                                                        id="cidbBidangCeGred" name="cidbBidangCeGred">
+                                                        <option {{(old('cidbBidangCeGred') === null) ? 'selected' : ''}}></option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G1') ? 'selected' : ''}}>
+                                                            G1
+                                                        </option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G2') ? 'selected' : ''}}>
+                                                            G2
+                                                        </option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G3') ? 'selected' : ''}}>
+                                                            G3
+                                                        </option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G4') ? 'selected' : ''}}>
+                                                            G4
+                                                        </option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G5') ? 'selected' : ''}}>
+                                                            G5
+                                                        </option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G6') ? 'selected' : ''}}>
+                                                            G6
+                                                        </option>
+                                                        <option {{(old('cidbBidangCeGred') === 'G7') ? 'selected' : ''}}>
+                                                            G7
+                                                        </option>
+                                                    </select>
 
-                    {{--@if($errors->has('cidbBidangCeGred'))--}}
+                                                    @if($errors->has('cidbBidangCeGred'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                                        <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbBidangCeGred')}}--}}
+                                                            {{$errors->first('cidbBidangCeGred')}}
 
-                    {{--</div>--}}
+                                                        </div>
 
-                    {{--@endif--}}
+                                                    @endif
 
-                    {{--</div>--}}
+                                                </div>
 
-                    {{--<div class="form-group col-md-6">--}}
+                                                <div class="form-group col-md-6">
 
-                    {{--<label for="cidbBidangCeKod">Kod Bidang</label>--}}
+                                                    <label for="cidbBidangCeKod">Kod Bidang</label>
 
-                    {{--<select--}}
-                    {{--class="selectpicker form-control {{$errors->has('cidbBidangCeKod') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangCeKod" name="cidbBidangCeKod[]"--}}
-                    {{--multiple data-live-search="true" data-size="7"--}}
-                    {{--data-actions-box="true"--}}
-                    {{--data-style="btn">--}}
+                                                    <select
+                                                        class="selectpicker form-control {{$errors->has('cidbBidangCeKod') ? 'is-invalid' : ''}}"
+                                                        id="cidbBidangCeKod" name="cidbBidangCeKod[]"
+                                                        multiple data-live-search="true" data-size="7"
+                                                        data-actions-box="true"
+                                                        data-style="btn">
 
-                    {{--@foreach ($cidbs as $cidb)--}}
+                                                        @foreach ($cidbs as $cidb)
 
-                    {{--@if ($cidb->type !== 'CE')--}}
+                                                            @if ($cidb->type !== 'CE')
 
-                    {{--@continue--}}
+                                                                @continue
 
-                    {{--@endif--}}
+                                                            @endif
 
-                    {{--@if(old('cidbBidangCeKod') === null)--}}
+                                                            @if(old('cidbBidangCeKod') === null)
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
+                                                                <option value="{{$cidb->id}}"
+                                                                        data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
 
-                    {{--@else--}}
+                                                            @else
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}"--}}
-                    {{--{{in_array($cidb->id, old('cidbBidangCeKod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
+                                                                <option value="{{$cidb->id}}"
+                                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                                    {{in_array($cidb->id, old('cidbBidangCeKod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                    {{--@endif--}}
+                                                            @endif
 
-                    {{--@endforeach--}}
+                                                        @endforeach
 
-                    {{--</select>--}}
+                                                    </select>
 
-                    {{--@if($errors->has('cidbBidangCeKod'))--}}
+                                                    @if($errors->has('cidbBidangCeKod'))
 
-                    {{--<div class="invalid-feedback">--}}
+                                                        <div class="invalid-feedback">
 
-                    {{--{{$errors->first('cidbBidangCeKod')}}--}}
+                                                            {{$errors->first('cidbBidangCeKod')}}
 
-                    {{--</div>--}}
+                                                        </div>
 
-                    {{--@endif--}}
+                                                    @endif
 
-                    {{--</div>--}}
+                                                </div>
 
-                    {{--</div>--}}
+                                            </div>
 
-                    {{--</div>--}}
+                                        </div>
 
-                    {{--</div>--}}
+                                    </div>
 
-                    {{--</div>--}}
+                                </div>
 
-                    {{--Card bidang 'E'--}}
+                                {{--Card bidang 'E'--}}
 
-                    {{--<div class="card mb-3">--}}
+                                {{--<div class="card mb-3">--}}
 
-                    {{--<div class="card-body">--}}
+                                {{--<div class="card-body">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-12">--}}
+                                {{--<div class="form-group col-md-12">--}}
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                {{--<div class="form-check form-check-inline">--}}
 
-                    {{--<input--}}
-                    {{--class="form-check-input {{$errors->has('cidbBidangE') ? 'is-invalid' : ''}}"--}}
-                    {{--type="checkbox" id="cidbBidangE"--}}
-                    {{--name="cidbBidangE"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#cidbBidangEpanel" {{(old('cidbBidangE') === 'on') ? 'checked' : ''}}>--}}
-                    {{--<label class="form-check-label" for="cidbBidangE">E&nbsp;</label>--}}
+                                {{--<input--}}
+                                {{--class="form-check-input {{$errors->has('cidbBidangE') ? 'is-invalid' : ''}}"--}}
+                                {{--type="checkbox" id="cidbBidangE"--}}
+                                {{--name="cidbBidangE"--}}
+                                {{--data-toggle="collapse"--}}
+                                {{--data-target="#cidbBidangEpanel" {{(old('cidbBidangE') === 'on') ? 'checked' : ''}}>--}}
+                                {{--<label class="form-check-label" for="cidbBidangE">E&nbsp;</label>--}}
 
-                    {{--@if($errors->has('cidbBidangE'))--}}
+                                {{--@if($errors->has('cidbBidangE'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangE')}}--}}
+                                {{--{{$errors->first('cidbBidangE')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div id="cidbBidangEpanel"--}}
-                    {{--class="collapse {{(old('cidbBidangE') === 'on') ? 'show' : ''}}">--}}
+                                {{--<div id="cidbBidangEpanel"--}}
+                                {{--class="collapse {{(old('cidbBidangE') === 'on') ? 'show' : ''}}">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-6">--}}
+                                {{--<div class="form-group col-md-6">--}}
 
-                    {{--<label for="cidbBidangEgred">Gred</label>--}}
+                                {{--<label for="cidbBidangEgred">Gred</label>--}}
 
-                    {{--<select--}}
-                    {{--class="custom-select {{$errors->has('cidbBidangEgred') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangEgred" name="cidbBidangEgred">--}}
-                    {{--<option {{(old('cidbBidangEgred') === null) ? 'selected' : ''}}></option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G1') ? 'selected' : ''}}>--}}
-                    {{--G1--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G2') ? 'selected' : ''}}>--}}
-                    {{--G2--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G3') ? 'selected' : ''}}>--}}
-                    {{--G3--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G4') ? 'selected' : ''}}>--}}
-                    {{--G4--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G5') ? 'selected' : ''}}>--}}
-                    {{--G5--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G6') ? 'selected' : ''}}>--}}
-                    {{--G6--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangEgred') === 'G7') ? 'selected' : ''}}>--}}
-                    {{--G7--}}
-                    {{--</option>--}}
-                    {{--</select>--}}
+                                {{--<select--}}
+                                {{--class="custom-select {{$errors->has('cidbBidangEgred') ? 'is-invalid' : ''}}"--}}
+                                {{--id="cidbBidangEgred" name="cidbBidangEgred">--}}
+                                {{--<option {{(old('cidbBidangEgred') === null) ? 'selected' : ''}}></option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G1') ? 'selected' : ''}}>--}}
+                                {{--G1--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G2') ? 'selected' : ''}}>--}}
+                                {{--G2--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G3') ? 'selected' : ''}}>--}}
+                                {{--G3--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G4') ? 'selected' : ''}}>--}}
+                                {{--G4--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G5') ? 'selected' : ''}}>--}}
+                                {{--G5--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G6') ? 'selected' : ''}}>--}}
+                                {{--G6--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangEgred') === 'G7') ? 'selected' : ''}}>--}}
+                                {{--G7--}}
+                                {{--</option>--}}
+                                {{--</select>--}}
 
-                    {{--@if($errors->has('cidbBidangEgred'))--}}
+                                {{--@if($errors->has('cidbBidangEgred'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangEgred')}}--}}
+                                {{--{{$errors->first('cidbBidangEgred')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div class="form-group col-md-6">--}}
+                                {{--<div class="form-group col-md-6">--}}
 
-                    {{--<label for="cidbBidangEkod">Kod Bidang</label>--}}
+                                {{--<label for="cidbBidangEkod">Kod Bidang</label>--}}
 
-                    {{--<select--}}
-                    {{--class="selectpicker form-control {{$errors->has('cidbBidangEkod') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangEkod" name="cidbBidangEkod[]"--}}
-                    {{--multiple data-live-search="true" data-size="7"--}}
-                    {{--data-actions-box="true"--}}
-                    {{--data-style="btn">--}}
+                                {{--<select--}}
+                                {{--class="selectpicker form-control {{$errors->has('cidbBidangEkod') ? 'is-invalid' : ''}}"--}}
+                                {{--id="cidbBidangEkod" name="cidbBidangEkod[]"--}}
+                                {{--multiple data-live-search="true" data-size="7"--}}
+                                {{--data-actions-box="true"--}}
+                                {{--data-style="btn">--}}
 
-                    {{--@foreach ($cidbs as $cidb)--}}
+                                {{--@foreach ($cidbs as $cidb)--}}
 
-                    {{--@if ($cidb->type !== 'E')--}}
+                                {{--@if ($cidb->type !== 'E')--}}
 
-                    {{--@continue--}}
+                                {{--@continue--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--@if(old('cidbBidangEkod') === null)--}}
+                                {{--@if(old('cidbBidangEkod') === null)--}}
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
+                                {{--<option value="{{$cidb->id}}"--}}
+                                {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
 
-                    {{--@else--}}
+                                {{--@else--}}
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}"--}}
-                    {{--{{in_array($cidb->id, old('cidbBidangEkod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
+                                {{--<option value="{{$cidb->id}}"--}}
+                                {{--data-subtext="{{title_case($cidb->description)}}"--}}
+                                {{--{{in_array($cidb->id, old('cidbBidangEkod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--@endforeach--}}
+                                {{--@endforeach--}}
 
-                    {{--</select>--}}
+                                {{--</select>--}}
 
-                    {{--@if($errors->has('cidbBidangEkod'))--}}
+                                {{--@if($errors->has('cidbBidangEkod'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangEkod')}}--}}
+                                {{--{{$errors->first('cidbBidangEkod')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--Card bidang 'ME'--}}
+                                {{--Card bidang 'ME'--}}
 
-                    {{--<div class="card mb-3">--}}
+                                {{--<div class="card mb-3">--}}
 
-                    {{--<div class="card-body">--}}
+                                {{--<div class="card-body">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-12">--}}
+                                {{--<div class="form-group col-md-12">--}}
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                {{--<div class="form-check form-check-inline">--}}
 
-                    {{--<input--}}
-                    {{--class="form-check-input {{$errors->has('cidbBidangMe') ? 'is-invalid' : ''}}"--}}
-                    {{--type="checkbox" id="cidbBidangMe"--}}
-                    {{--name="cidbBidangMe"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#cidbBidangMePanel" {{(old('cidbBidangMe') === 'on') ? 'checked' : ''}}>--}}
-                    {{--<label class="form-check-label" for="cidbBidangMe">ME&nbsp;</label>--}}
+                                {{--<input--}}
+                                {{--class="form-check-input {{$errors->has('cidbBidangMe') ? 'is-invalid' : ''}}"--}}
+                                {{--type="checkbox" id="cidbBidangMe"--}}
+                                {{--name="cidbBidangMe"--}}
+                                {{--data-toggle="collapse"--}}
+                                {{--data-target="#cidbBidangMePanel" {{(old('cidbBidangMe') === 'on') ? 'checked' : ''}}>--}}
+                                {{--<label class="form-check-label" for="cidbBidangMe">ME&nbsp;</label>--}}
 
-                    {{--@if($errors->has('cidbBidangMe'))--}}
+                                {{--@if($errors->has('cidbBidangMe'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangMe')}}--}}
+                                {{--{{$errors->first('cidbBidangMe')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div id="cidbBidangMePanel"--}}
-                    {{--class="collapse {{(old('cidbBidangMe') === 'on') ? 'show' : ''}}">--}}
+                                {{--<div id="cidbBidangMePanel"--}}
+                                {{--class="collapse {{(old('cidbBidangMe') === 'on') ? 'show' : ''}}">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-6">--}}
+                                {{--<div class="form-group col-md-6">--}}
 
-                    {{--<label for="cidbBidangMeGred">Gred</label>--}}
+                                {{--<label for="cidbBidangMeGred">Gred</label>--}}
 
-                    {{--<select--}}
-                    {{--class="custom-select {{$errors->has('cidbBidangMeGred') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangMeGred" name="cidbBidangMeGred">--}}
-                    {{--<option {{(old('cidbBidangMeGred') === null) ? 'selected' : ''}}></option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G1') ? 'selected' : ''}}>--}}
-                    {{--G1--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G2') ? 'selected' : ''}}>--}}
-                    {{--G2--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G3') ? 'selected' : ''}}>--}}
-                    {{--G3--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G4') ? 'selected' : ''}}>--}}
-                    {{--G4--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G5') ? 'selected' : ''}}>--}}
-                    {{--G5--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G6') ? 'selected' : ''}}>--}}
-                    {{--G6--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangMeGred') === 'G7') ? 'selected' : ''}}>--}}
-                    {{--G7--}}
-                    {{--</option>--}}
-                    {{--</select>--}}
+                                {{--<select--}}
+                                {{--class="custom-select {{$errors->has('cidbBidangMeGred') ? 'is-invalid' : ''}}"--}}
+                                {{--id="cidbBidangMeGred" name="cidbBidangMeGred">--}}
+                                {{--<option {{(old('cidbBidangMeGred') === null) ? 'selected' : ''}}></option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G1') ? 'selected' : ''}}>--}}
+                                {{--G1--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G2') ? 'selected' : ''}}>--}}
+                                {{--G2--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G3') ? 'selected' : ''}}>--}}
+                                {{--G3--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G4') ? 'selected' : ''}}>--}}
+                                {{--G4--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G5') ? 'selected' : ''}}>--}}
+                                {{--G5--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G6') ? 'selected' : ''}}>--}}
+                                {{--G6--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangMeGred') === 'G7') ? 'selected' : ''}}>--}}
+                                {{--G7--}}
+                                {{--</option>--}}
+                                {{--</select>--}}
 
-                    {{--@if($errors->has('cidbBidangMeGred'))--}}
+                                {{--@if($errors->has('cidbBidangMeGred'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangMeGred')}}--}}
+                                {{--{{$errors->first('cidbBidangMeGred')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div class="form-group col-md-6">--}}
+                                {{--<div class="form-group col-md-6">--}}
 
-                    {{--<label for="cidbBidangMeKod">Kod Bidang</label>--}}
+                                {{--<label for="cidbBidangMeKod">Kod Bidang</label>--}}
 
-                    {{--<select--}}
-                    {{--class="selectpicker form-control {{$errors->has('cidbBidangMeKod') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangMeKod" name="cidbBidangMeKod[]"--}}
-                    {{--multiple data-live-search="true" data-size="7"--}}
-                    {{--data-actions-box="true"--}}
-                    {{--data-style="btn">--}}
+                                {{--<select--}}
+                                {{--class="selectpicker form-control {{$errors->has('cidbBidangMeKod') ? 'is-invalid' : ''}}"--}}
+                                {{--id="cidbBidangMeKod" name="cidbBidangMeKod[]"--}}
+                                {{--multiple data-live-search="true" data-size="7"--}}
+                                {{--data-actions-box="true"--}}
+                                {{--data-style="btn">--}}
 
-                    {{--@foreach ($cidbs as $cidb)--}}
+                                {{--@foreach ($cidbs as $cidb)--}}
 
-                    {{--@if ($cidb->type !== 'ME')--}}
+                                {{--@if ($cidb->type !== 'ME')--}}
 
-                    {{--@continue--}}
+                                {{--@continue--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--@if(old('cidbBidangMeKod') === null)--}}
+                                {{--@if(old('cidbBidangMeKod') === null)--}}
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
+                                {{--<option value="{{$cidb->id}}"--}}
+                                {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
 
-                    {{--@else--}}
+                                {{--@else--}}
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}"--}}
-                    {{--{{in_array($cidb->id, old('cidbBidangMeKod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
+                                {{--<option value="{{$cidb->id}}"--}}
+                                {{--data-subtext="{{title_case($cidb->description)}}"--}}
+                                {{--{{in_array($cidb->id, old('cidbBidangMeKod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--@endforeach--}}
+                                {{--@endforeach--}}
 
-                    {{--</select>--}}
+                                {{--</select>--}}
 
-                    {{--@if($errors->has('cidbBidangMeKod'))--}}
+                                {{--@if($errors->has('cidbBidangMeKod'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangMeKod')}}--}}
+                                {{--{{$errors->first('cidbBidangMeKod')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--Card bidang 'P'--}}
+                                {{--Card bidang 'P'--}}
 
-                    {{--<div class="card mb-3">--}}
+                                {{--<div class="card mb-3">--}}
 
-                    {{--<div class="card-body">--}}
+                                {{--<div class="card-body">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-12">--}}
+                                {{--<div class="form-group col-md-12">--}}
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                {{--<div class="form-check form-check-inline">--}}
 
-                    {{--<input--}}
-                    {{--class="form-check-input {{$errors->has('cidbBidangP') ? 'is-invalid' : ''}}"--}}
-                    {{--type="checkbox" id="cidbBidangP"--}}
-                    {{--name="cidbBidangP"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#cidbBidangPpanel" {{(old('cidbBidangP') === 'on') ? 'checked' : ''}}>--}}
-                    {{--<label class="form-check-label" for="cidbBidangP">P&nbsp;</label>--}}
+                                {{--<input--}}
+                                {{--class="form-check-input {{$errors->has('cidbBidangP') ? 'is-invalid' : ''}}"--}}
+                                {{--type="checkbox" id="cidbBidangP"--}}
+                                {{--name="cidbBidangP"--}}
+                                {{--data-toggle="collapse"--}}
+                                {{--data-target="#cidbBidangPpanel" {{(old('cidbBidangP') === 'on') ? 'checked' : ''}}>--}}
+                                {{--<label class="form-check-label" for="cidbBidangP">P&nbsp;</label>--}}
 
-                    {{--@if($errors->has('cidbBidangP'))--}}
+                                {{--@if($errors->has('cidbBidangP'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangP')}}--}}
+                                {{--{{$errors->first('cidbBidangP')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div id="cidbBidangPpanel"--}}
-                    {{--class="collapse {{(old('cidbBidangP') === 'on') ? 'show' : ''}}">--}}
+                                {{--<div id="cidbBidangPpanel"--}}
+                                {{--class="collapse {{(old('cidbBidangP') === 'on') ? 'show' : ''}}">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-6">--}}
+                                {{--<div class="form-group col-md-6">--}}
 
-                    {{--<label for="cidbBidangPgred">Gred</label>--}}
+                                {{--<label for="cidbBidangPgred">Gred</label>--}}
 
-                    {{--<select--}}
-                    {{--class="custom-select {{$errors->has('cidbBidangPgred') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangPgred" name="cidbBidangPgred">--}}
-                    {{--<option {{(old('cidbBidangPgred') === null) ? 'selected' : ''}}></option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G1') ? 'selected' : ''}}>--}}
-                    {{--G1--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G2') ? 'selected' : ''}}>--}}
-                    {{--G2--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G3') ? 'selected' : ''}}>--}}
-                    {{--G3--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G4') ? 'selected' : ''}}>--}}
-                    {{--G4--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G5') ? 'selected' : ''}}>--}}
-                    {{--G5--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G6') ? 'selected' : ''}}>--}}
-                    {{--G6--}}
-                    {{--</option>--}}
-                    {{--<option {{(old('cidbBidangPgred') === 'G7') ? 'selected' : ''}}>--}}
-                    {{--G7--}}
-                    {{--</option>--}}
-                    {{--</select>--}}
+                                {{--<select--}}
+                                {{--class="custom-select {{$errors->has('cidbBidangPgred') ? 'is-invalid' : ''}}"--}}
+                                {{--id="cidbBidangPgred" name="cidbBidangPgred">--}}
+                                {{--<option {{(old('cidbBidangPgred') === null) ? 'selected' : ''}}></option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G1') ? 'selected' : ''}}>--}}
+                                {{--G1--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G2') ? 'selected' : ''}}>--}}
+                                {{--G2--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G3') ? 'selected' : ''}}>--}}
+                                {{--G3--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G4') ? 'selected' : ''}}>--}}
+                                {{--G4--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G5') ? 'selected' : ''}}>--}}
+                                {{--G5--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G6') ? 'selected' : ''}}>--}}
+                                {{--G6--}}
+                                {{--</option>--}}
+                                {{--<option {{(old('cidbBidangPgred') === 'G7') ? 'selected' : ''}}>--}}
+                                {{--G7--}}
+                                {{--</option>--}}
+                                {{--</select>--}}
 
-                    {{--@if($errors->has('cidbBidangPgred'))--}}
+                                {{--@if($errors->has('cidbBidangPgred'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangPgred')}}--}}
+                                {{--{{$errors->first('cidbBidangPgred')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div class="form-group col-md-6">--}}
+                                {{--<div class="form-group col-md-6">--}}
 
-                    {{--<label for="cidbBidangPkod">Kod Bidang</label>--}}
+                                {{--<label for="cidbBidangPkod">Kod Bidang</label>--}}
 
-                    {{--<select--}}
-                    {{--class="selectpicker form-control {{$errors->has('cidbBidangPkod') ? 'is-invalid' : ''}}"--}}
-                    {{--id="cidbBidangPkod" name="cidbBidangPkod[]"--}}
-                    {{--multiple data-live-search="true" data-size="7"--}}
-                    {{--data-actions-box="true"--}}
-                    {{--data-style="btn">--}}
+                                {{--<select--}}
+                                {{--class="selectpicker form-control {{$errors->has('cidbBidangPkod') ? 'is-invalid' : ''}}"--}}
+                                {{--id="cidbBidangPkod" name="cidbBidangPkod[]"--}}
+                                {{--multiple data-live-search="true" data-size="7"--}}
+                                {{--data-actions-box="true"--}}
+                                {{--data-style="btn">--}}
 
-                    {{--@foreach ($cidbs as $cidb)--}}
+                                {{--@foreach ($cidbs as $cidb)--}}
 
-                    {{--@if ($cidb->type !== 'P')--}}
+                                {{--@if ($cidb->type !== 'P')--}}
 
-                    {{--@continue--}}
+                                {{--@continue--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--@if(old('cidbBidangPkod') === null)--}}
+                                {{--@if(old('cidbBidangPkod') === null)--}}
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
+                                {{--<option value="{{$cidb->id}}"--}}
+                                {{--data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>--}}
 
-                    {{--@else--}}
+                                {{--@else--}}
 
-                    {{--<option value="{{$cidb->id}}"--}}
-                    {{--data-subtext="{{title_case($cidb->description)}}"--}}
-                    {{--{{in_array($cidb->id, old('cidbBidangPkod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
+                                {{--<option value="{{$cidb->id}}"--}}
+                                {{--data-subtext="{{title_case($cidb->description)}}"--}}
+                                {{--{{in_array($cidb->id, old('cidbBidangPkod')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--@endforeach--}}
+                                {{--@endforeach--}}
 
-                    {{--</select>--}}
+                                {{--</select>--}}
 
-                    {{--@if($errors->has('cidbBidangPkod'))--}}
+                                {{--@if($errors->has('cidbBidangPkod'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('cidbBidangPkod')}}--}}
+                                {{--{{$errors->first('cidbBidangPkod')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--PKK Card--}}
+                                {{--PKK Card--}}
 
-                    {{--<div class="card  bg-light mb-3">--}}
+                                {{--<div class="card  bg-light mb-3">--}}
 
-                    {{--<div class="card-body">--}}
+                                {{--<div class="card-body">--}}
 
-                    {{--Suis panel PKK--}}
+                                {{--Suis panel PKK--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group">--}}
+                                {{--<div class="form-group">--}}
 
-                    {{--<div class="form-check form-check-inline">--}}
+                                {{--<div class="form-check form-check-inline">--}}
 
-                    {{--<input class="form-check-input" type="checkbox" id="daftarPkk" name="daftarPkk"--}}
-                    {{--data-toggle="collapse"--}}
-                    {{--data-target="#panelPkk" {{(old('daftarPkk') === 'on') ? 'checked' : ''}}>--}}
-                    {{--<label class="form-check-label font-weight-bold" for="daftarPkk">Sijil--}}
-                    {{--PKK</label>--}}
+                                {{--<input class="form-check-input" type="checkbox" id="daftarPkk" name="daftarPkk"--}}
+                                {{--data-toggle="collapse"--}}
+                                {{--data-target="#panelPkk" {{(old('daftarPkk') === 'on') ? 'checked' : ''}}>--}}
+                                {{--<label class="form-check-label font-weight-bold" for="daftarPkk">Sijil--}}
+                                {{--PKK</label>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--Panel PKK--}}
+                                {{--Panel PKK--}}
 
-                    {{--<div class="collapse {{(old('daftarPkk') === 'on') ? 'show' : ''}}" id="panelPkk">--}}
+                                {{--<div class="collapse {{(old('daftarPkk') === 'on') ? 'show' : ''}}" id="panelPkk">--}}
 
-                    {{--<div class="form-row">--}}
+                                {{--<div class="form-row">--}}
 
-                    {{--<div class="form-group col-md-4">--}}
+                                {{--<div class="form-group col-md-4">--}}
 
-                    {{--<label for="inputPKK"># Sijil</label>--}}
+                                {{--<label for="inputPKK"># Sijil</label>--}}
 
-                    {{--<input id="inputPKK" name="sijilPkk" type="text"--}}
-                    {{--class="form-control {{$errors->has('sijilPkk') ? 'is-invalid' : ''}}"--}}
-                    {{--placeholder="Nombor sijil PKK" value="{{old('sijilSsm')}}">--}}
+                                {{--<input id="inputPKK" name="sijilPkk" type="text"--}}
+                                {{--class="form-control {{$errors->has('sijilPkk') ? 'is-invalid' : ''}}"--}}
+                                {{--placeholder="Nombor sijil PKK" value="{{old('sijilSsm')}}">--}}
 
-                    {{--@if($errors->has('sijilPkk'))--}}
+                                {{--@if($errors->has('sijilPkk'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('sijilPkk')}}--}}
+                                {{--{{$errors->first('sijilPkk')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div class="form-group col-md-4">--}}
+                                {{--<div class="form-group col-md-4">--}}
 
-                    {{--<label for="inputPKKMula">Mula</label>--}}
+                                {{--<label for="inputPKKMula">Mula</label>--}}
 
-                    {{--<input id="inputPKKMula" name="pkkMula" type="date"--}}
-                    {{--class="form-control {{$errors->has('pkkMula') ? 'is-invalid' : ''}}"--}}
-                    {{--value="{{old('pkkMula')}}">--}}
+                                {{--<input id="inputPKKMula" name="pkkMula" type="date"--}}
+                                {{--class="form-control {{$errors->has('pkkMula') ? 'is-invalid' : ''}}"--}}
+                                {{--value="{{old('pkkMula')}}">--}}
 
-                    {{--@if($errors->has('pkkMula'))--}}
+                                {{--@if($errors->has('pkkMula'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('pkkMula')}}--}}
+                                {{--{{$errors->first('pkkMula')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--<div class="form-group col-md-4">--}}
+                                {{--<div class="form-group col-md-4">--}}
 
-                    {{--<label for="inputPKKTamat">Tamat</label>--}}
+                                {{--<label for="inputPKKTamat">Tamat</label>--}}
 
-                    {{--<input id="inputPKKTamat" name="pkkTamat" type="date"--}}
-                    {{--class="form-control {{$errors->has('pkkTamat') ? 'is-invalid' : ''}}"--}}
-                    {{--value="{{old('pkkTamat')}}">--}}
+                                {{--<input id="inputPKKTamat" name="pkkTamat" type="date"--}}
+                                {{--class="form-control {{$errors->has('pkkTamat') ? 'is-invalid' : ''}}"--}}
+                                {{--value="{{old('pkkTamat')}}">--}}
 
-                    {{--@if($errors->has('pkkTamat'))--}}
+                                {{--@if($errors->has('pkkTamat'))--}}
 
-                    {{--<div class="invalid-feedback">--}}
+                                {{--<div class="invalid-feedback">--}}
 
-                    {{--{{$errors->first('pkkTamat')}}--}}
+                                {{--{{$errors->first('pkkTamat')}}--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--@endif--}}
+                                {{--@endif--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--</div>--}}
+                                {{--</div>--}}
 
-                    {{--Butang Hantar--}}
+                                {{--Butang Hantar--}}
 
-                    <div class="form-row">
+                                <div class="form-row">
 
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
 
-                    </div>
+                                </div>
 
                 </fieldset>
 

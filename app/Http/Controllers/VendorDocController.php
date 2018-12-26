@@ -36,15 +36,15 @@ class VendorDocController extends Controller
     {
         // Get tuples from mof_ref table.
 
-        $mof_tuples = DB::table('mof_ref')->get();
+        $mofTuples = DB::table('mof_ref')->get();
 
         // Get tuples from cidb_ref table.
 
-        $cidb_tuples = DB::table('cidb_ref')->get();
+        $cidbTuples = DB::table('cidb_ref')->get();
 
         // Return create vendor page.
 
-        return view('vendor_doc_create', ['mofs' => $mof_tuples, 'cidbs' => $cidb_tuples]);
+        return view('vendor_doc_create', ['mofs' => $mofTuples, 'cidbs' => $cidbTuples]);
     }
 
     /**
@@ -357,15 +357,24 @@ class VendorDocController extends Controller
         // Get MOF tuples from table mof_details.
 
         $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
-            ->join('mof_ref', 'mof_details.mof_id', '=', 'mof_ref.id')
-            ->pluck('description', 'code');
+            ->pluck('mof_id');
+
+        // Get all tuples from mof_ref table.
+
+        $mofRefTuples = DB::table('mof_ref')->get();
+
+        // Get all tuples from cidb_ref table.
+
+        $cidbRefTuples = DB::table('cidb_ref')->get();
 
         // Show page.
 
         return view('vendor_doc_edit', [
             'vendor' => $vendorTuple,
             'cidbTuples' => $cidbTuples,
-            'mofTuples' => $mofTuples
+            'mofTuples' => $mofTuples,
+            'mofs' => $mofRefTuples,
+            'cidbs' => $cidbRefTuples
         ]);
     }
 
