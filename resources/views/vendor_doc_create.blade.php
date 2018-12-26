@@ -1524,8 +1524,6 @@
 
     </div>
 
-
-
 @endsection
 
 @section('script')

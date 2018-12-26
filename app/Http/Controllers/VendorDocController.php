@@ -38,7 +38,7 @@ class VendorDocController extends Controller
 
         $mof_tuples = DB::table('mof_ref')->get();
 
-        // Get tuples from cidb-ref table.
+        // Get tuples from cidb_ref table.
 
         $cidb_tuples = DB::table('cidb_ref')->get();
 
@@ -149,15 +149,15 @@ class VendorDocController extends Controller
 
         DB::table('vendor_doc')->insert([
             'id' => $id,
-            'name' => strtoupper($request->input('syarikat')),
-            'officer' => $request->input('pegawai'),
-            'address' => $request->input('alamat'),
-            'address1' => $request->input('alamat1'),
-            'town' => $request->input('bandar'),
+            'name' => title_case($request->input('syarikat')),
+            'officer' => title_case($request->input('pegawai')),
+            'address' => title_case($request->input('alamat')),
+            'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
+            'town' => title_case($request->input('bandar')),
             'postcode' => $request->input('poskod'),
-            'state' => $request->input('negeri'),
+            'state' => title_case($request->input('negeri')),
             'telephone' => $request->input('telefon'),
-            'email' => $request->input('emel'),
+            'email' => strtolower($request->input('emel')),
             'ssm_id' => $request->input('sijilSsm'),
             'ssm_start' => $request->input('ssmMula'),
             'ssm_thru' => $request->input('ssmTamat'),
@@ -332,6 +332,53 @@ class VendorDocController extends Controller
             'cidbTuples' => $cidbTuples,
             'mofTuples' => $mofTuples
         ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        // Get vendor tuple from table vendor_doc.
+
+        $vendorTuple = DB::table('vendor_doc')->where('id', $id)
+            ->first();
+
+        // Get CIDB tuples from table cidb_details.
+
+        $cidbTuples = DB::table('cidb_details')
+            ->where('vd_id', '=', $id)
+            ->join('cidb_ref', 'cidb_details.cidb_id', '=', 'cidb_ref.id')
+            ->get();
+
+        // Get MOF tuples from table mof_details.
+
+        $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
+            ->join('mof_ref', 'mof_details.mof_id', '=', 'mof_ref.id')
+            ->pluck('description', 'code');
+
+        // Show page.
+
+        return view('vendor_doc_edit', [
+            'vendor' => $vendorTuple,
+            'cidbTuples' => $cidbTuples,
+            'mofTuples' => $mofTuples
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
     }
 
     /**

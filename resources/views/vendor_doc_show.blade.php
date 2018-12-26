@@ -4,9 +4,11 @@
 
 @section('action')
 
+    <a class="btn btn-sm btn-outline-secondary" href="{{route('vendor-doc.edit', ['id' => $vendor->id])}}"
+       role="button">Ubah</a>
+    <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Hapus</button>
     <a class="btn btn-sm btn-outline-secondary" href="{{route('vendor-certificate', ['id' => $vendor->id])}}"
        role="button">Sijil Perakuan</a>
-    <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Hapus</button>
 
 @endsection
 

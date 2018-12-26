@@ -16,7 +16,6 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Route::resource('vendor-doc', 'VendorDocController')
-    ->except(['edit', 'update'])
     ->middleware('auth');
 
 Route::get('/vendor-certificate/{id}', 'VendorCertificate')
