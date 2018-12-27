@@ -354,6 +354,28 @@ class VendorDocController extends Controller
             ->join('cidb_ref', 'cidb_details.cidb_id', '=', 'cidb_ref.id')
             ->get();
 
+        // Group cidb tuples by type.
+
+        $cidbBtuples = $cidbTuples->filter(function ($value) {
+            return $value->type === 'B';
+        });
+
+        $cidbCeTuples = $cidbTuples->filter(function ($value) {
+            return $value->type === 'CE';
+        });
+
+        $cidbEtuples = $cidbTuples->filter(function ($value) {
+            return $value->type === 'E';
+        });
+
+        $cidbMeTuples = $cidbTuples->filter(function ($value) {
+            return $value->type === 'ME';
+        });
+
+        $cidbPtuples = $cidbTuples->filter(function ($value) {
+            return $value->type === 'P';
+        });
+
         // Get MOF tuples from table mof_details.
 
         $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
@@ -370,11 +392,64 @@ class VendorDocController extends Controller
         // Show page.
 
         return view('vendor_doc_edit', [
-            'vendor' => $vendorTuple,
-            'cidbTuples' => $cidbTuples,
-            'mofTuples' => $mofTuples,
-            'mofs' => $mofRefTuples,
-            'cidbs' => $cidbRefTuples
+            'id' => optional($vendorTuple)->id,
+            'syarikat' => optional($vendorTuple)->name,
+            'pegawai' => optional($vendorTuple)->officer,
+            'alamat' => optional($vendorTuple)->address,
+            'alamat1' => optional($vendorTuple)->address1,
+            'poskod' => optional($vendorTuple)->postcode,
+            'bandar' => optional($vendorTuple)->town,
+            'negeri' => optional($vendorTuple)->state,
+            'telefon' => optional($vendorTuple)->telephone,
+            'emel' => optional($vendorTuple)->email,
+            'daftarMpspk' => optional($vendorTuple)->mpspk_id !== null ? 'on' : '',
+            'sijilMpspk' => optional($vendorTuple)->mpspk_id,
+            'mpspkMula' => optional($vendorTuple)->mpspk_start !== null ? date('Y-m-d', strtotime($vendorTuple->mpspk_start)) : null,
+            'mpspkTamat' => optional($vendorTuple)->mpspk_thru !== null ? date('Y-m-d', strtotime($vendorTuple->mpspk_thru)) : null,
+            'daftarSsm' => optional($vendorTuple)->ssm_id !== null ? 'on' : '',
+            'sijilSsm' => optional($vendorTuple)->ssm_id,
+            'ssmMula' => optional($vendorTuple)->ssm_start !== null ? date('Y-m-d', strtotime($vendorTuple->ssm_start)) : null,
+            'ssmTamat' => optional($vendorTuple)->ssm_thru !== null ? date('Y-m-d', strtotime($vendorTuple->ssm_thru)) : null,
+            'daftarMof' => optional($vendorTuple)->mof_id !== null ? 'on' : '',
+            'sijilMof' => optional($vendorTuple)->mof_id,
+            'mofMula' => optional($vendorTuple)->mof_start !== null ? date('Y-m-d', strtotime($vendorTuple->mof_start)) : null,
+            'mofTamat' => optional($vendorTuple)->mof_thru !== null ? date('Y-m-d', strtotime($vendorTuple->mof_thru)) : null,
+            'mofs' => $mofRefTuples->toArray(),
+            'mofTuples' => optional($mofTuples)->toArray(),
+            'cidbs' => $cidbRefTuples,
+            'daftarCidb' => optional($vendorTuple)->cidb_id !== null ? 'on' : '',
+            'sijilCidb' => optional($vendorTuple)->cidb_id,
+            'cidbMula' => optional($vendorTuple)->cidb_start !== null ? date('Y-m-d', strtotime($vendorTuple->cidb_start)) : null,
+            'cidbTamat' => optional($vendorTuple)->cidb_thru !== null ? date('Y-m-d', strtotime($vendorTuple->cidb_thru)) : null,
+            'cidbBidangB' => $cidbBtuples->isNotEmpty() ? 'on' : '',
+            'cidbBidangBgred' => optional($cidbBtuples->first())->grade,
+            'cidbBidangBkod' => optional($cidbBtuples)->map(function ($value) {
+                return $value->cidb_id;
+            })->toArray(),
+            'cidbBidangCe' => $cidbCeTuples->isNotEmpty() ? 'on' : '',
+            'cidbBidangCeGred' => optional($cidbCeTuples->first())->grade,
+            'cidbBidangCeKod' => optional($cidbCeTuples)->map(function ($value) {
+                return $value->cidb_id;
+            })->toArray(),
+            'cidbBidangE' => $cidbEtuples->isNotEmpty() ? 'on' : '',
+            'cidbBidangEgred' => optional($cidbEtuples->first())->grade,
+            'cidbBidangEkod' => optional($cidbEtuples)->map(function ($value) {
+                return $value->cidb_id;
+            })->toArray(),
+            'cidbBidangMe' => $cidbMeTuples->isNotEmpty() ? 'on' : '',
+            'cidbBidangMeGred' => optional($cidbMeTuples->first())->grade,
+            'cidbBidangMeKod' => optional($cidbMeTuples)->map(function ($value) {
+                return $value->cidb_id;
+            })->toArray(),
+            'cidbBidangP' => $cidbPtuples->isNotEmpty() ? 'on' : '',
+            'cidbBidangPgred' => optional($cidbPtuples->first())->grade,
+            'cidbBidangPkod' => optional($cidbPtuples)->map(function ($value) {
+                return $value->cidb_id;
+            })->toArray(),
+            'daftarPkk' => optional($vendorTuple)->pkk_id !== null ? 'on' : '',
+            'sijilPkk' => optional($vendorTuple)->pkk_id,
+            'pkkMula' => optional($vendorTuple)->pkk_start !== null ? date('Y-m-d', strtotime($vendorTuple->pkk_start)) : null,
+            'pkkTamat' => optional($vendorTuple)->pkk_thru !== null ? date('Y-m-d', strtotime($vendorTuple->pkk_thru)) : null,
         ]);
     }
 
@@ -387,7 +462,244 @@ class VendorDocController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Declare validation rules.
+
+        $rules = [
+            'syarikat' => 'required',
+            'pegawai' => 'required',
+            'alamat' => 'required',
+            'alamat1' => 'nullable',
+            'poskod' => 'required',
+            'bandar' => 'required',
+            'negeri' => 'required',
+            'telefon' => 'required',
+            'emel' => 'required|email',
+            'daftarMpspk' => 'nullable',
+            'sijilMpspk' => 'nullable|required_if:daftarMpspk,on',
+            'mpspkMula' => 'nullable|required_if:daftarMpspk,on|date',
+            'mpspkTamat' => 'nullable|required_if:daftarMpspk,on|date|after:mpspkMula',
+            'daftarSsm' => 'nullable',
+            'sijilSsm' => 'nullable|required_if:daftarSsm,on',
+            'ssmMula' => 'nullable|required_if:daftarSsm,on|date',
+            'ssmTamat' => 'nullable|required_if:daftarSsm,on|date|after:ssmMula',
+            'daftarMof' => 'nullable',
+            'sijilMof' => 'nullable|required_if:daftarMof,on',
+            'mofMula' => 'nullable|required_if:daftarMof,on|date',
+            'mofTamat' => 'nullable|required_if:daftarMof,on|date|after:mofMula',
+            'mofs' => 'nullable|required_if:daftarMof,on',
+            'daftarCidb' => 'nullable',
+            'sijilCidb' => 'nullable|required_if:daftarCidb,on',
+            'cidbMula' => 'nullable|required_if:daftarCidb,on|date',
+            'cidbTamat' => 'nullable|required_if:daftarCidb,on|date|after:cidbMula',
+            'cidbBidangB' => 'nullable',
+            'cidbBidangBgred' => 'nullable|required_with_all:cidbBidangB,daftarCidb',
+            'cidbBidangBkod' => 'nullable|required_with_all:cidbBidangB,daftarCidb',
+            'cidbBidangCe' => 'nullable',
+            'cidbBidangCeGred' => 'nullable|required_with_all:cidbBidangCe,daftarCidb',
+            'cidbBidangCeKod' => 'nullable|required_with_all:cidbBidangCe,daftarCidb',
+            'cidbBidangE' => 'nullable',
+            'cidbBidangEgred' => 'nullable|required_with_all:cidbBidangE,daftarCidb',
+            'cidbBidangEkod' => 'nullable|required_with_all:cidbBidangE,daftarCidb',
+            'cidbBidangMe' => 'nullable',
+            'cidbBidangMeGred' => 'nullable|required_with_all:cidbBidangMe,daftarCidb',
+            'cidbBidangMeKod' => 'nullable|required_with_all:cidbBidangMe,daftarCidb',
+            'cidbBidangP' => 'nullable',
+            'cidbBidangPgred' => 'nullable|required_with_all:cidbBidangP,daftarCidb',
+            'cidbBidangPkod' => 'nullable|required_with_all:cidbBidangP,daftarCidb',
+            'daftarPkk' => 'nullable',
+            'sijilPkk' => 'nullable|required_if:daftarPkk,on',
+            'pkkMula' => 'nullable|required_if:daftarPkk,on|date',
+            'pkkTamat' => 'nullable|required_if:daftarPkk,on|date|after:pkkMula',
+        ];
+
+        // Declare optional validation rules.
+
+        $rulesCidbBidangB = 'required_without_all:cidbBidangCe,cidbBidangE,cidbBidangMe,cidbBidangP';
+        $rulesCidbBidangCe = 'required_without_all:cidbBidangB,cidbBidangE,cidbBidangMe,cidbBidangP';
+        $rulesCidbBidangE = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangMe,cidbBidangP';
+        $rulesCidbBidangMe = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangP';
+        $rulesCidbBidangP = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangMe';
+
+        // Setup validation.
+
+        Validator::make($request->all(), $rules)
+            ->sometimes('cidbBidangB', $rulesCidbBidangB, function ($input) {
+                return $input->daftarCidb === 'on';
+            })
+            ->sometimes('cidbBidangCe', $rulesCidbBidangCe, function ($input) {
+                return $input->daftarCidb === 'on';
+            })
+            ->sometimes('cidbBidangE', $rulesCidbBidangE, function ($input) {
+                return $input->daftarCidb === 'on';
+            })
+            ->sometimes('cidbBidangMe', $rulesCidbBidangMe, function ($input) {
+                return $input->daftarCidb === 'on';
+            })
+            ->sometimes('cidbBidangP', $rulesCidbBidangP, function ($input) {
+                return $input->daftarCidb === 'on';
+            })
+            ->validate();
+
+        // Perform update on table vendor_doc.
+
+        DB::table('vendor_doc')
+            ->where('id', $id)
+            ->update([
+                'officer' => title_case($request->input('pegawai')),
+                'address' => title_case($request->input('alamat')),
+                'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
+                'town' => title_case($request->input('bandar')),
+                'postcode' => $request->input('poskod'),
+                'state' => title_case($request->input('negeri')),
+                'telephone' => $request->input('telefon'),
+                'email' => strtolower($request->input('emel')),
+                'ssm_id' => $request->input('sijilSsm'),
+                'ssm_start' => $request->input('ssmMula'),
+                'ssm_thru' => $request->input('ssmTamat'),
+                'mpspk_id' => $request->input('sijilMpspk'),
+                'mpspk_start' => $request->input('mpspkMula'),
+                'mpspk_thru' => $request->input('mpspkTamat'),
+                'cidb_id' => $request->input('sijilCidb'),
+                'cidb_start' => $request->input('cidbMula'),
+                'cidb_thru' => $request->input('cidbTamat'),
+                'pkk_id' => $request->input('sijilPkk'),
+                'pkk_start' => $request->input('pkkMula'),
+                'pkk_thru' => $request->input('pkkTamat'),
+                'mof_id' => $request->input('sijilMof'),
+                'mof_start' => $request->input('mofMula'),
+                'mof_thru' => $request->input('mofTamat')
+            ]);
+
+        // Delete tuples on cidb_details.
+
+        DB::table('cidb_details')->where('vd_id', '=', $id)->delete();
+
+        // Insert new cidb_details tuples for B, CE, E, ME and P.
+
+        if ($request->input('daftarCidb') === 'on') {
+
+            // B.
+
+            if ($request->input('cidbBidangB') === 'on') {
+
+                foreach ($request->input('cidbBidangBkod') as $cidbBidangBkod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangBkod,
+                        'grade' => $request->input('cidbBidangBgred')
+                    ]);
+
+                }
+
+            }
+
+            // CE.
+
+            if ($request->input('cidbBidangCe') === 'on') {
+
+                foreach ($request->input('cidbBidangCeKod') as $cidbBidangCeKod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangCeKod,
+                        'grade' => $request->input('cidbBidangCeGred')
+                    ]);
+
+                }
+
+            }
+
+            // E.
+
+            if ($request->input('cidbBidangE') === 'on') {
+
+                foreach ($request->input('cidbBidangEkod') as $cidbBidangEkod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangEkod,
+                        'grade' => $request->input('cidbBidangEgred')
+                    ]);
+
+                }
+
+            }
+
+            // ME.
+
+            if ($request->input('cidbBidangMe') === 'on') {
+
+                foreach ($request->input('cidbBidangMeKod') as $cidbBidangMeKod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangMeKod,
+                        'grade' => $request->input('cidbBidangMeGred')
+                    ]);
+
+                }
+
+            }
+
+            // P.
+
+            if ($request->input('cidbBidangP') === 'on') {
+
+                foreach ($request->input('cidbBidangPkod') as $cidbBidangPkod) {
+
+                    $cidbId = (string)Str::uuid();
+
+                    DB::table('cidb_details')->insert([
+                        'id' => $cidbId,
+                        'vd_id' => $id,
+                        'cidb_id' => $cidbBidangPkod,
+                        'grade' => $request->input('cidbBidangPgred')
+                    ]);
+
+                }
+
+            }
+
+        }
+
+        // Delete tuples on mof_details.
+
+        DB::table('mof_details')->where('vd_id', '=', $id)->delete();
+
+        // Insert new mof_details tuple.
+
+        if ($request->input('daftarMof') === 'on') {
+
+            foreach ($request->input('mofs') as $mof) {
+
+                $mof_id = (string)Str::uuid();
+
+                DB::table('mof_details')->insert([
+                    'id' => $mof_id,
+                    'vd_id' => $id,
+                    'mof_id' => $mof
+                ]);
+
+            }
+
+        }
+
+        // Redirect to vendor detail page.
+
+        return redirect()->route('vendor-doc.show', ['vendor-doc' => $id]);
     }
 
     /**

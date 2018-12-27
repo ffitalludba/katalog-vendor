@@ -1446,7 +1446,7 @@
 
                                         <input id="inputPKK" name="sijilPkk" type="text"
                                                class="form-control {{$errors->has('sijilPkk') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil PKK" value="{{old('sijilSsm')}}">
+                                               placeholder="Nombor sijil PKK" value="{{old('sijilPkk')}}">
 
                                         @if($errors->has('sijilPkk'))
 
