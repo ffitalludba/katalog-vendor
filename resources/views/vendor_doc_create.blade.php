@@ -289,11 +289,11 @@
 
                                     <div class="form-group col-md-4">
 
-                                        <label for="inputMpspk"># Sijil</label>
+                                        <label for="inputMpspk"># Pendaftaran</label>
 
                                         <input id="inputMpspk" name="sijilMpspk" type="text"
                                                class="form-control {{$errors->has('sijilMpspk') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil MPSPK" value="{{old('sijilMpspk')}}">
+                                               placeholder="Nombor Pendaftaran MPSPK" value="{{old('sijilMpspk')}}">
 
                                         @if($errors->has('sijilMpspk'))
 
@@ -389,11 +389,11 @@
 
                                     <div class="form-group col-md-4">
 
-                                        <label for="inputSSM"># Sijil</label>
+                                        <label for="inputSSM"># Pendaftaran</label>
 
                                         <input id="inputSSM" name="sijilSsm" type="text"
                                                class="form-control {{$errors->has('sijilSsm') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil SSM" value="{{old('sijilSsm')}}">
+                                               placeholder="Nombor Pendaftaran SSM" value="{{old('sijilSsm')}}">
 
                                         @if($errors->has('sijilSsm'))
 
@@ -489,11 +489,11 @@
 
                                     <div class="form-group col-md-4">
 
-                                        <label for="inputMOF"># Sijil</label>
+                                        <label for="inputMOF"># Pendaftaran</label>
 
                                         <input id="inputMOF" name="sijilMof" type="text"
                                                class="form-control {{$errors->has('sijilMof') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil MOF" value="{{old('sijilMof')}}">
+                                               placeholder="Nombor Pendaftaran MOF" value="{{old('sijilMof')}}">
 
                                         @if($errors->has('sijilMof'))
 
@@ -639,11 +639,11 @@
 
                                     <div class="form-group col-md-4">
 
-                                        <label for="inputCIDB"># Sijil</label>
+                                        <label for="inputCIDB"># Pendaftaran</label>
 
                                         <input id="inputCIDB" name="sijilCidb" type="text"
                                                class="form-control {{$errors->has('sijilCidb') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil CIDB" value="{{old('sijilCidb')}}">
+                                               placeholder="Nombor Pendaftaran CIDB" value="{{old('sijilCidb')}}">
 
                                         @if($errors->has('sijilCidb'))
 
@@ -1442,11 +1442,11 @@
 
                                     <div class="form-group col-md-4">
 
-                                        <label for="inputPKK"># Sijil</label>
+                                        <label for="inputPKK"># Pendaftaran</label>
 
                                         <input id="inputPKK" name="sijilPkk" type="text"
                                                class="form-control {{$errors->has('sijilPkk') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor sijil PKK" value="{{old('sijilPkk')}}">
+                                               placeholder="Nombor Pendaftaran PKK" value="{{old('sijilPkk')}}">
 
                                         @if($errors->has('sijilPkk'))
 

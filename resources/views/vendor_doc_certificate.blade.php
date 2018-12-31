@@ -13,6 +13,12 @@
 
     <title>MPSPK | Sijil Perakuan Vendor</title>
 
+    <style>
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -77,6 +83,32 @@
     <p class="text-center">
         <small>(Sijil ini adalah cetakan komputer dan tidak memerlukan tandatangan)</small>
     </p>
+
+    <div class="page-break"></div>
+
+    <p>&nbsp;</p>
+
+    <table class="table table-sm table-borderless">
+
+        <tbody>
+
+        <tr>
+
+            <td scope="row">NO. RUJUKAN PENDAFTARAN</td>
+            <td>{{$vendor->mpspk_id}}</td>
+
+        </tr>
+        <tr>
+
+            <td scope="row">TEMPOH KELAYAKAN</td>
+            <td>
+                {{date("d M Y", strtotime($vendor->mpspk_start))}} &ndash; {{date("d M Y", strtotime($vendor->mpspk_thru))}}</td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
 
 </div>
 
