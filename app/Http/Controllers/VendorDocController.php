@@ -40,11 +40,49 @@ class VendorDocController extends Controller
 
         // Get tuples from cidb_ref table.
 
-        $cidbTuples = DB::table('cidb_ref')->get();
+        $cidbTuples = DB::table('cidb_ref')
+            ->orderBy('subtype')
+            ->get();
+
+        // Group cidb tuples by type.
+
+        $cidbBtuples = $cidbTuples
+            ->filter(function ($value) {
+
+                return $value->type === 'B';
+
+            });
+
+        $cidbCeTuples = $cidbTuples
+            ->filter(function ($value) {
+
+                return $value->type === 'CE';
+
+            });
+
+        $cidbMeTuples = $cidbTuples
+            ->filter(function ($value) {
+
+                return $value->type === 'ME';
+
+            });
+
+        $cidbFtuples = $cidbTuples
+            ->filter(function ($value) {
+
+                return $value->type === 'F';
+
+            });
 
         // Return create vendor page.
 
-        return view('vendor_doc_create', ['mofs' => $mofTuples, 'cidbs' => $cidbTuples]);
+        return view('vendor_doc_create', [
+            'mofs' => $mofTuples,
+            'cidbBtuples' => $cidbBtuples,
+            'cidbCeTuples' => $cidbCeTuples,
+            'cidbMeTuples' => $cidbMeTuples,
+            'cidbFtuples' => $cidbFtuples
+        ]);
     }
 
     /**
@@ -58,15 +96,15 @@ class VendorDocController extends Controller
         // Declare validation rules.
 
         $rules = [
-            'syarikat' => 'required|unique:vendor_doc,name',
-            'pegawai' => 'required',
-            'alamat' => 'required',
-            'alamat1' => 'nullable',
-            'poskod' => 'required',
-            'bandar' => 'required',
-            'negeri' => 'required',
-            'telefon' => 'required',
-            'emel' => 'required|email',
+            'syarikat' => 'required|unique:vendor_doc,name|string',
+            'pegawai' => 'required|string',
+            'alamat' => 'required|string',
+            'alamat1' => 'nullable|string',
+            'poskod' => 'required|digits:5',
+            'bandar' => 'required|string',
+            'negeri' => 'required|string',
+            'telefon' => 'nullable|digits_between:8,10',
+            'emel' => 'nullable|email',
             'daftarMpspk' => 'nullable',
             'sijilMpspk' => 'nullable|required_if:daftarMpspk,on',
             'mpspkMula' => 'nullable|required_if:daftarMpspk,on|date',
@@ -90,15 +128,12 @@ class VendorDocController extends Controller
             'cidbBidangCe' => 'nullable',
             'cidbBidangCeGred' => 'nullable|required_with_all:cidbBidangCe,daftarCidb',
             'cidbBidangCeKod' => 'nullable|required_with_all:cidbBidangCe,daftarCidb',
-            'cidbBidangE' => 'nullable',
-            'cidbBidangEgred' => 'nullable|required_with_all:cidbBidangE,daftarCidb',
-            'cidbBidangEkod' => 'nullable|required_with_all:cidbBidangE,daftarCidb',
             'cidbBidangMe' => 'nullable',
             'cidbBidangMeGred' => 'nullable|required_with_all:cidbBidangMe,daftarCidb',
             'cidbBidangMeKod' => 'nullable|required_with_all:cidbBidangMe,daftarCidb',
-            'cidbBidangP' => 'nullable',
-            'cidbBidangPgred' => 'nullable|required_with_all:cidbBidangP,daftarCidb',
-            'cidbBidangPkod' => 'nullable|required_with_all:cidbBidangP,daftarCidb',
+            'cidbBidangF' => 'nullable',
+            'cidbBidangFgred' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
+            'cidbBidangFkod' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
             'daftarPkk' => 'nullable',
             'sijilPkk' => 'nullable|required_if:daftarPkk,on',
             'pkkMula' => 'nullable|required_if:daftarPkk,on|date',
@@ -107,73 +142,66 @@ class VendorDocController extends Controller
 
         // Declare optional validation rules.
 
-        $rulesCidbBidangB = 'required_without_all:cidbBidangCe,cidbBidangE,cidbBidangMe,cidbBidangP';
-        $rulesCidbBidangCe = 'required_without_all:cidbBidangB,cidbBidangE,cidbBidangMe,cidbBidangP';
-        $rulesCidbBidangE = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangMe,cidbBidangP';
-        $rulesCidbBidangMe = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangP';
-        $rulesCidbBidangP = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangMe';
+        $rulesCidbBidangB = 'required_without_all:cidbBidangCe,cidbBidangMe,cidbBidangF';
+        $rulesCidbBidangCe = 'required_without_all:cidbBidangB,cidbBidangMe,cidbBidangF';
+        $rulesCidbBidangMe = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangF';
+        $rulesCidbBidangF = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangMe';
 
-        // Setup validation.
+        // Setup optional validation.
 
-        Validator::make($request->all(), $rules)->sometimes('cidbBidangB', $rulesCidbBidangB, function ($input) {
+        Validator::make($request->all(), $rules)
+            ->sometimes('cidbBidangB', $rulesCidbBidangB, function ($input) {
 
-            return $input->daftarCidb === 'on';
+                return $input->daftarCidb === 'on';
 
-            // Setup optional validations.
+            })
+            ->sometimes('cidbBidangCe', $rulesCidbBidangCe, function ($input) {
 
-        })->sometimes('cidbBidangCe', $rulesCidbBidangCe, function ($input) {
+                return $input->daftarCidb === 'on';
 
-            return $input->daftarCidb === 'on';
+            })
+            ->sometimes('cidbBidangMe', $rulesCidbBidangMe, function ($input) {
 
-        })->sometimes('cidbBidangE', $rulesCidbBidangE, function ($input) {
+                return $input->daftarCidb === 'on';
 
-            return $input->daftarCidb === 'on';
+            })
+            ->sometimes('cidbBidangF', $rulesCidbBidangF, function ($input) {
 
-        })->sometimes('cidbBidangMe', $rulesCidbBidangMe, function ($input) {
+                return $input->daftarCidb === 'on';
 
-            return $input->daftarCidb === 'on';
-
-        })->sometimes('cidbBidangP', $rulesCidbBidangP, function ($input) {
-
-            return $input->daftarCidb === 'on';
-
-            // Perform validation.
-
-        })->validate();
-
-        // Initialise new Id for table vendor_doc.
-
-        $id = (string)Str::uuid();
+            })
+            ->validate();
 
         // Insert tuple into vendor_doc table.
 
-        DB::table('vendor_doc')->insert([
-            'id' => $id,
-            'name' => title_case($request->input('syarikat')),
-            'officer' => title_case($request->input('pegawai')),
-            'address' => title_case($request->input('alamat')),
-            'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
-            'town' => title_case($request->input('bandar')),
-            'postcode' => $request->input('poskod'),
-            'state' => title_case($request->input('negeri')),
-            'telephone' => $request->input('telefon'),
-            'email' => strtolower($request->input('emel')),
-            'ssm_id' => $request->input('sijilSsm'),
-            'ssm_start' => $request->input('ssmMula'),
-            'ssm_thru' => $request->input('ssmTamat'),
-            'mpspk_id' => $request->input('sijilMpspk'),
-            'mpspk_start' => $request->input('mpspkMula'),
-            'mpspk_thru' => $request->input('mpspkTamat'),
-            'cidb_id' => $request->input('sijilCidb'),
-            'cidb_start' => $request->input('cidbMula'),
-            'cidb_thru' => $request->input('cidbTamat'),
-            'pkk_id' => $request->input('sijilPkk'),
-            'pkk_start' => $request->input('pkkMula'),
-            'pkk_thru' => $request->input('pkkTamat'),
-            'mof_id' => $request->input('sijilMof'),
-            'mof_start' => $request->input('mofMula'),
-            'mof_thru' => $request->input('mofTamat')
-        ]);
+        $id = DB::table('vendor_doc')
+            ->insertGetId([
+                'id' => (string)Str::uuid(),
+                'name' => title_case($request->input('syarikat')),
+                'officer' => title_case($request->input('pegawai')),
+                'address' => title_case($request->input('alamat')),
+                'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
+                'town' => title_case($request->input('bandar')),
+                'postcode' => $request->input('poskod'),
+                'state' => title_case($request->input('negeri')),
+                'telephone' => $request->input('telefon'),
+                'email' => $request->input('emel') !== null ? strtolower($request->input('emel')) : null,
+                'ssm_id' => $request->input('sijilSsm'),
+                'ssm_start' => $request->input('ssmMula'),
+                'ssm_thru' => $request->input('ssmTamat'),
+                'mpspk_id' => $request->input('sijilMpspk'),
+                'mpspk_start' => $request->input('mpspkMula'),
+                'mpspk_thru' => $request->input('mpspkTamat'),
+                'cidb_id' => $request->input('sijilCidb'),
+                'cidb_start' => $request->input('cidbMula'),
+                'cidb_thru' => $request->input('cidbTamat'),
+                'pkk_id' => $request->input('sijilPkk'),
+                'pkk_start' => $request->input('pkkMula'),
+                'pkk_thru' => $request->input('pkkTamat'),
+                'mof_id' => $request->input('sijilMof'),
+                'mof_start' => $request->input('mofMula'),
+                'mof_thru' => $request->input('mofTamat')
+            ], 'id');
 
         // Insert mof_details tuples.
 
@@ -181,19 +209,18 @@ class VendorDocController extends Controller
 
             foreach ($request->input('mofs') as $mof) {
 
-                $mof_id = (string)Str::uuid();
-
-                DB::table('mof_details')->insert([
-                    'id' => $mof_id,
-                    'vd_id' => $id,
-                    'mof_id' => $mof
-                ]);
+                DB::table('mof_details')
+                    ->insert([
+                        'id' => (string)Str::uuid(),
+                        'vd_id' => $id,
+                        'mof_id' => $mof
+                    ]);
 
             }
 
         }
 
-        // Insert cidb_details tuples for B, CE, E, ME and P.
+        // Insert cidb_details tuples for B, CE, ME and F.
 
         if ($request->input('daftarCidb') === 'on') {
 
@@ -203,14 +230,13 @@ class VendorDocController extends Controller
 
                 foreach ($request->input('cidbBidangBkod') as $cidbBidangBkod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangBkod,
-                        'grade' => $request->input('cidbBidangBgred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangBkod,
+                            'grade' => $request->input('cidbBidangBgred')
+                        ]);
 
                 }
 
@@ -222,33 +248,13 @@ class VendorDocController extends Controller
 
                 foreach ($request->input('cidbBidangCeKod') as $cidbBidangCeKod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangCeKod,
-                        'grade' => $request->input('cidbBidangCeGred')
-                    ]);
-
-                }
-
-            }
-
-            // E.
-
-            if ($request->input('cidbBidangE') === 'on') {
-
-                foreach ($request->input('cidbBidangEkod') as $cidbBidangEkod) {
-
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangEkod,
-                        'grade' => $request->input('cidbBidangEgred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangCeKod,
+                            'grade' => $request->input('cidbBidangCeGred')
+                        ]);
 
                 }
 
@@ -260,33 +266,31 @@ class VendorDocController extends Controller
 
                 foreach ($request->input('cidbBidangMeKod') as $cidbBidangMeKod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangMeKod,
-                        'grade' => $request->input('cidbBidangMeGred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangMeKod,
+                            'grade' => $request->input('cidbBidangMeGred')
+                        ]);
 
                 }
 
             }
 
-            // P.
+            // F.
 
-            if ($request->input('cidbBidangP') === 'on') {
+            if ($request->input('cidbBidangF') === 'on') {
 
-                foreach ($request->input('cidbBidangPkod') as $cidbBidangPkod) {
+                foreach ($request->input('cidbBidangFkod') as $cidbBidangFkod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangPkod,
-                        'grade' => $request->input('cidbBidangPgred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangFkod,
+                            'grade' => $request->input('cidbBidangFgred')
+                        ]);
 
                 }
 
@@ -294,9 +298,9 @@ class VendorDocController extends Controller
 
         }
 
-        // Redirect to index.
+        // Redirect to show page.
 
-        return redirect()->route('vendor-doc.index');
+        return redirect()->route('vendor-doc.show', ['vendor-doc' => $id]);
     }
 
     /**
@@ -317,12 +321,14 @@ class VendorDocController extends Controller
         $cidbTuples = DB::table('cidb_details')
             ->where('vd_id', '=', $id)
             ->join('cidb_ref', 'cidb_details.cidb_id', '=', 'cidb_ref.id')
+            ->orderBy('subtype')
             ->get();
 
         // Get MOF tuples from table mof_details.
 
         $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
             ->join('mof_ref', 'mof_details.mof_id', '=', 'mof_ref.id')
+            ->orderBy('code')
             ->pluck('description', 'code');
 
         // Show page.
@@ -356,38 +362,50 @@ class VendorDocController extends Controller
 
         // Group cidb tuples by type.
 
-        $cidbBtuples = $cidbTuples->filter(function ($value) {
-            return $value->type === 'B';
-        });
+        $cidbBtuples = $cidbTuples
+            ->filter(function ($value) {
 
-        $cidbCeTuples = $cidbTuples->filter(function ($value) {
-            return $value->type === 'CE';
-        });
+                return $value->type === 'B';
 
-        $cidbEtuples = $cidbTuples->filter(function ($value) {
-            return $value->type === 'E';
-        });
+            });
 
-        $cidbMeTuples = $cidbTuples->filter(function ($value) {
-            return $value->type === 'ME';
-        });
+        $cidbCeTuples = $cidbTuples
+            ->filter(function ($value) {
 
-        $cidbPtuples = $cidbTuples->filter(function ($value) {
-            return $value->type === 'P';
-        });
+                return $value->type === 'CE';
+
+            });
+
+        $cidbMeTuples = $cidbTuples
+            ->filter(function ($value) {
+
+                return $value->type === 'ME';
+
+            });
+
+        $cidbFtuples = $cidbTuples
+            ->filter(function ($value) {
+
+                return $value->type === 'F';
+
+            });
 
         // Get MOF tuples from table mof_details.
 
-        $mofTuples = DB::table('mof_details')->where('vd_id', '=', $id)
+        $mofTuples = DB::table('mof_details')
+            ->where('vd_id', '=', $id)
             ->pluck('mof_id');
 
         // Get all tuples from mof_ref table.
 
-        $mofRefTuples = DB::table('mof_ref')->get();
+        $mofRefTuples = DB::table('mof_ref')
+            ->get();
 
         // Get all tuples from cidb_ref table.
 
-        $cidbRefTuples = DB::table('cidb_ref')->get();
+        $cidbRefTuples = DB::table('cidb_ref')
+            ->orderBy('subtype')
+            ->get();
 
         // Show page.
 
@@ -431,19 +449,14 @@ class VendorDocController extends Controller
             'cidbBidangCeKod' => optional($cidbCeTuples)->map(function ($value) {
                 return $value->cidb_id;
             })->toArray(),
-            'cidbBidangE' => $cidbEtuples->isNotEmpty() ? 'on' : '',
-            'cidbBidangEgred' => optional($cidbEtuples->first())->grade,
-            'cidbBidangEkod' => optional($cidbEtuples)->map(function ($value) {
-                return $value->cidb_id;
-            })->toArray(),
             'cidbBidangMe' => $cidbMeTuples->isNotEmpty() ? 'on' : '',
             'cidbBidangMeGred' => optional($cidbMeTuples->first())->grade,
             'cidbBidangMeKod' => optional($cidbMeTuples)->map(function ($value) {
                 return $value->cidb_id;
             })->toArray(),
-            'cidbBidangP' => $cidbPtuples->isNotEmpty() ? 'on' : '',
-            'cidbBidangPgred' => optional($cidbPtuples->first())->grade,
-            'cidbBidangPkod' => optional($cidbPtuples)->map(function ($value) {
+            'cidbBidangF' => $cidbFtuples->isNotEmpty() ? 'on' : '',
+            'cidbBidangFgred' => optional($cidbFtuples->first())->grade,
+            'cidbBidangFkod' => optional($cidbFtuples)->map(function ($value) {
                 return $value->cidb_id;
             })->toArray(),
             'daftarPkk' => optional($vendorTuple)->pkk_id !== null ? 'on' : '',
@@ -465,15 +478,15 @@ class VendorDocController extends Controller
         // Declare validation rules.
 
         $rules = [
-            'syarikat' => 'required',
-            'pegawai' => 'required',
-            'alamat' => 'required',
-            'alamat1' => 'nullable',
-            'poskod' => 'required',
-            'bandar' => 'required',
-            'negeri' => 'required',
-            'telefon' => 'required',
-            'emel' => 'required|email',
+            'syarikat' => 'required|string',
+            'pegawai' => 'required|string',
+            'alamat' => 'required|string',
+            'alamat1' => 'nullable|string',
+            'poskod' => 'required|digits:5',
+            'bandar' => 'required|string',
+            'negeri' => 'required|string',
+            'telefon' => 'nullable|digits_between:8,10',
+            'emel' => 'nullable|email',
             'daftarMpspk' => 'nullable',
             'sijilMpspk' => 'nullable|required_if:daftarMpspk,on',
             'mpspkMula' => 'nullable|required_if:daftarMpspk,on|date',
@@ -497,15 +510,12 @@ class VendorDocController extends Controller
             'cidbBidangCe' => 'nullable',
             'cidbBidangCeGred' => 'nullable|required_with_all:cidbBidangCe,daftarCidb',
             'cidbBidangCeKod' => 'nullable|required_with_all:cidbBidangCe,daftarCidb',
-            'cidbBidangE' => 'nullable',
-            'cidbBidangEgred' => 'nullable|required_with_all:cidbBidangE,daftarCidb',
-            'cidbBidangEkod' => 'nullable|required_with_all:cidbBidangE,daftarCidb',
             'cidbBidangMe' => 'nullable',
             'cidbBidangMeGred' => 'nullable|required_with_all:cidbBidangMe,daftarCidb',
             'cidbBidangMeKod' => 'nullable|required_with_all:cidbBidangMe,daftarCidb',
-            'cidbBidangP' => 'nullable',
-            'cidbBidangPgred' => 'nullable|required_with_all:cidbBidangP,daftarCidb',
-            'cidbBidangPkod' => 'nullable|required_with_all:cidbBidangP,daftarCidb',
+            'cidbBidangF' => 'nullable',
+            'cidbBidangFgred' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
+            'cidbBidangFkod' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
             'daftarPkk' => 'nullable',
             'sijilPkk' => 'nullable|required_if:daftarPkk,on',
             'pkkMula' => 'nullable|required_if:daftarPkk,on|date',
@@ -514,11 +524,10 @@ class VendorDocController extends Controller
 
         // Declare optional validation rules.
 
-        $rulesCidbBidangB = 'required_without_all:cidbBidangCe,cidbBidangE,cidbBidangMe,cidbBidangP';
-        $rulesCidbBidangCe = 'required_without_all:cidbBidangB,cidbBidangE,cidbBidangMe,cidbBidangP';
-        $rulesCidbBidangE = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangMe,cidbBidangP';
-        $rulesCidbBidangMe = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangP';
-        $rulesCidbBidangP = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangE,cidbBidangMe';
+        $rulesCidbBidangB = 'required_without_all:cidbBidangCe,cidbBidangMe,cidbBidangF';
+        $rulesCidbBidangCe = 'required_without_all:cidbBidangB,cidbBidangMe,cidbBidangF';
+        $rulesCidbBidangMe = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangF';
+        $rulesCidbBidangF = 'required_without_all:cidbBidangB,cidbBidangCe,cidbBidangMe';
 
         // Setup validation.
 
@@ -529,13 +538,10 @@ class VendorDocController extends Controller
             ->sometimes('cidbBidangCe', $rulesCidbBidangCe, function ($input) {
                 return $input->daftarCidb === 'on';
             })
-            ->sometimes('cidbBidangE', $rulesCidbBidangE, function ($input) {
-                return $input->daftarCidb === 'on';
-            })
             ->sometimes('cidbBidangMe', $rulesCidbBidangMe, function ($input) {
                 return $input->daftarCidb === 'on';
             })
-            ->sometimes('cidbBidangP', $rulesCidbBidangP, function ($input) {
+            ->sometimes('cidbBidangF', $rulesCidbBidangF, function ($input) {
                 return $input->daftarCidb === 'on';
             })
             ->validate();
@@ -552,7 +558,7 @@ class VendorDocController extends Controller
                 'postcode' => $request->input('poskod'),
                 'state' => title_case($request->input('negeri')),
                 'telephone' => $request->input('telefon'),
-                'email' => strtolower($request->input('emel')),
+                'email' => $request->input('emel') !== null ? strtolower($request->input('emel')) : null,
                 'ssm_id' => $request->input('sijilSsm'),
                 'ssm_start' => $request->input('ssmMula'),
                 'ssm_thru' => $request->input('ssmTamat'),
@@ -574,7 +580,7 @@ class VendorDocController extends Controller
 
         DB::table('cidb_details')->where('vd_id', '=', $id)->delete();
 
-        // Insert new cidb_details tuples for B, CE, E, ME and P.
+        // Insert new cidb_details tuples for B, CE, ME and F.
 
         if ($request->input('daftarCidb') === 'on') {
 
@@ -584,14 +590,13 @@ class VendorDocController extends Controller
 
                 foreach ($request->input('cidbBidangBkod') as $cidbBidangBkod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangBkod,
-                        'grade' => $request->input('cidbBidangBgred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangBkod,
+                            'grade' => $request->input('cidbBidangBgred')
+                        ]);
 
                 }
 
@@ -603,33 +608,13 @@ class VendorDocController extends Controller
 
                 foreach ($request->input('cidbBidangCeKod') as $cidbBidangCeKod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangCeKod,
-                        'grade' => $request->input('cidbBidangCeGred')
-                    ]);
-
-                }
-
-            }
-
-            // E.
-
-            if ($request->input('cidbBidangE') === 'on') {
-
-                foreach ($request->input('cidbBidangEkod') as $cidbBidangEkod) {
-
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangEkod,
-                        'grade' => $request->input('cidbBidangEgred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangCeKod,
+                            'grade' => $request->input('cidbBidangCeGred')
+                        ]);
 
                 }
 
@@ -641,33 +626,31 @@ class VendorDocController extends Controller
 
                 foreach ($request->input('cidbBidangMeKod') as $cidbBidangMeKod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangMeKod,
-                        'grade' => $request->input('cidbBidangMeGred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangMeKod,
+                            'grade' => $request->input('cidbBidangMeGred')
+                        ]);
 
                 }
 
             }
 
-            // P.
+            // F.
 
-            if ($request->input('cidbBidangP') === 'on') {
+            if ($request->input('cidbBidangF') === 'on') {
 
-                foreach ($request->input('cidbBidangPkod') as $cidbBidangPkod) {
+                foreach ($request->input('cidbBidangFkod') as $cidbBidangFkod) {
 
-                    $cidbId = (string)Str::uuid();
-
-                    DB::table('cidb_details')->insert([
-                        'id' => $cidbId,
-                        'vd_id' => $id,
-                        'cidb_id' => $cidbBidangPkod,
-                        'grade' => $request->input('cidbBidangPgred')
-                    ]);
+                    DB::table('cidb_details')
+                        ->insert([
+                            'id' => (string)Str::uuid(),
+                            'vd_id' => $id,
+                            'cidb_id' => $cidbBidangFkod,
+                            'grade' => $request->input('cidbBidangFgred')
+                        ]);
 
                 }
 
@@ -685,10 +668,8 @@ class VendorDocController extends Controller
 
             foreach ($request->input('mofs') as $mof) {
 
-                $mof_id = (string)Str::uuid();
-
                 DB::table('mof_details')->insert([
-                    'id' => $mof_id,
+                    'id' => (string)Str::uuid(),
                     'vd_id' => $id,
                     'mof_id' => $mof
                 ]);

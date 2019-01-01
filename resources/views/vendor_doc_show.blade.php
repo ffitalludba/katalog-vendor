@@ -208,10 +208,34 @@
                     <dd class="col-sm-8">{{title_case($vendor->officer)}}</dd>
 
                     <dt class="col-sm-4">Telefon</dt>
-                    <dd class="col-sm-8">{{$vendor->telephone}}</dd>
+                    <dd class="col-sm-8">
+
+                        @if($vendor->telephone !== null)
+
+                            {{$vendor->telephone}}
+
+                        @else
+
+                            <span class="badge badge-secondary">Tiada</span>
+
+                        @endif
+
+                    </dd>
 
                     <dt class="col-sm-4">Emel</dt>
-                    <dd class="col-sm-8">{{$vendor->email}}</dd>
+                    <dd class="col-sm-8">
+
+                        @if($vendor->email !== null)
+
+                            {{$vendor->email}}
+
+                        @else
+
+                            <span class="badge badge-secondary">Tiada</span>
+
+                        @endif
+
+                    </dd>
 
                 </dl>
 
