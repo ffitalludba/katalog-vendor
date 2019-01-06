@@ -55,7 +55,7 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
 
                             <label for="inputSyarikat">Syarikat</label>
 
@@ -65,7 +65,7 @@
 
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
 
                             <label for="inputPegawai">Pegawai</label>
 
@@ -79,6 +79,27 @@
                                 <div class="invalid-feedback">
 
                                     {{ $errors->first('pegawai') }}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        <div class="form-group col-md-4">
+
+                            <label for="inputMykad">Mykad</label>
+
+                            <input id="inputMykad" name="mykad" type="text"
+                                   class="form-control form-control-sm {{$errors->has('mykad') ? 'is-invalid' : ''}}"
+                                   placeholder="xxxxxx-xx-xxxx"
+                                   value="{{old('mykad',$mykad)}}">
+
+                            @if($errors->has('mykad'))
+
+                                <div class="invalid-feedback">
+
+                                    {{ $errors->first('mykad') }}
 
                                 </div>
 
@@ -224,6 +245,53 @@
                             <input id="inputEmel" name="emel" type="email"
                                    class="form-control form-control-sm {{$errors->has('emel') ? 'is-invalid' : ''}}"
                                    placeholder="Emel rasmi syarikat" value="{{old('emel',$emel)}}">
+
+                            @if($errors->has('emel'))
+
+                                <div class="invalid-feedback">
+
+                                    {{$errors->first('emel')}}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                    {{--Input Bank--}}
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="inputBank">Bank</label>
+
+                            <input id="inputBank" name="bank" type="text"
+                                   class="form-control form-control-sm {{$errors->has('bank') ? 'is-invalid' : ''}}"
+                                   placeholder="Nama bank"
+                                   value="{{old('bank',$bank)}}">
+
+                            @if($errors->has('bank'))
+
+                                <div class="invalid-feedback">
+
+                                    {{$errors->first('bank')}}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="inputAkaunBank"># Akaun</label>
+
+                            <input id="inputAkaunBank" name="bankAkaun" type="text"
+                                   class="form-control form-control-sm {{$errors->has('bankAkaun') ? 'is-invalid' : ''}}"
+                                   placeholder="Nombor akaun bank" value="{{old('bankAkaun',$bankAkaun)}}">
 
                             @if($errors->has('emel'))
 
@@ -718,7 +786,8 @@
                                                         data-toggle="collapse"
                                                         data-target="#cidbBidangBpanel" {{(old('cidbBidangB',$cidbBidangB) === 'on') ? 'checked' : ''}}>
 
-                                                    <label class="form-check-label" for="cidbBidangB">B: Bangunan</label>
+                                                    <label class="form-check-label" for="cidbBidangB">B:
+                                                        Bangunan</label>
 
                                                     @if($errors->has('cidbBidangB'))
 
@@ -860,7 +929,8 @@
                                                         name="cidbBidangCe"
                                                         data-toggle="collapse"
                                                         data-target="#cidbBidangCePanel" {{(old('cidbBidangCe',$cidbBidangCe) === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangCe">CE: Kejuruteraan Awam</label>
+                                                    <label class="form-check-label" for="cidbBidangCe">CE: Kejuruteraan
+                                                        Awam</label>
 
                                                     @if($errors->has('cidbBidangCe'))
 
@@ -1000,7 +1070,8 @@
                                                         name="cidbBidangMe"
                                                         data-toggle="collapse"
                                                         data-target="#cidbBidangMePanel" {{(old('cidbBidangMe',$cidbBidangMe) === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangMe">ME: Mekanikal / Elektrik</label>
+                                                    <label class="form-check-label" for="cidbBidangMe">ME: Mekanikal /
+                                                        Elektrik</label>
 
                                                     @if($errors->has('cidbBidangMe'))
 
@@ -1140,7 +1211,8 @@
                                                         name="cidbBidangF"
                                                         data-toggle="collapse"
                                                         data-target="#cidbBidangFpanel" {{(old('cidbBidangF',$cidbBidangF) === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangF">F: Fasiliti</label>
+                                                    <label class="form-check-label" for="cidbBidangF">F:
+                                                        Fasiliti</label>
 
                                                     @if($errors->has('cidbBidangF'))
 

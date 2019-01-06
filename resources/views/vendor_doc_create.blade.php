@@ -53,7 +53,7 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
 
                             <label for="inputSyarikat">Syarikat</label>
 
@@ -73,7 +73,7 @@
 
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
 
                             <label for="inputPegawai">Pegawai</label>
 
@@ -86,6 +86,26 @@
                                 <div class="invalid-feedback">
 
                                     {{ $errors->first('pegawai') }}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        <div class="form-group col-md-4">
+
+                            <label for="inputMykad">Mykad</label>
+
+                            <input id="inputMykad" name="mykad" type="text"
+                                   class="form-control form-control-sm {{$errors->has('mykad') ? 'is-invalid' : ''}}"
+                                   placeholder="xxxxxx-xx-xxxx" value="{{old('mykad')}}">
+
+                            @if($errors->has('mykad'))
+
+                                <div class="invalid-feedback">
+
+                                    {{ $errors->first('mykad') }}
 
                                 </div>
 
@@ -240,6 +260,51 @@
 
                             @endif
 
+                        </div>
+
+                    </div>
+
+                    {{--Input Bank--}}
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="inputBank">Bank</label>
+
+                            <input id="inputBank" name="bank" type="text"
+                                   class="form-control form-control-sm {{$errors->has('bank') ? 'is-invalid' : ''}}"
+                                   placeholder="Nama bank" value="{{old('bank')}}">
+
+                            @if($errors->has('bank'))
+
+                                <div class="invalid-feedback">
+
+                                    {{$errors->first('bank')}}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="inputBankAkaun"># Akaun</label>
+
+                            <input id="inputBankAkaun" name="bankAkaun" type="text"
+                                   class="form-control form-control-sm {{$errors->has('bankAkaun') ? 'is-invalid' : ''}}"
+                                   placeholder="Nombor akaun bank" value="{{old('bankAkaun')}}">
+
+                            @if($errors->has('bankAkaun'))
+
+                                <div class="invalid-feedback">
+
+                                    {{$errors->first('bankAkaun')}}
+
+                                </div>
+
+                            @endif
 
                         </div>
 

@@ -200,12 +200,15 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran Pegawai</h5>
+                <h5 class="card-title">Butiran Pegawai & Bank</h5>
 
                 <dl class="row">
 
                     <dt class="col-sm-4">Pegawai</dt>
                     <dd class="col-sm-8">{{title_case($vendor->officer)}}</dd>
+
+                    <dt class="col-sm-4">Mykad</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->mykad)}}</dd>
 
                     <dt class="col-sm-4">Telefon</dt>
                     <dd class="col-sm-8">
@@ -236,6 +239,12 @@
                         @endif
 
                     </dd>
+
+                    <dt class="col-sm-4">Bank</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->bank)}}</dd>
+
+                    <dt class="col-sm-4"># Akaun</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->bank_account)}}</dd>
 
                 </dl>
 
