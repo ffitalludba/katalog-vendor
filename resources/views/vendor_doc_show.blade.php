@@ -200,11 +200,11 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran Pegawai & Bank</h5>
+                <h5 class="card-title">Butiran Pengurus & Bank</h5>
 
                 <dl class="row">
 
-                    <dt class="col-sm-4">Pegawai</dt>
+                    <dt class="col-sm-4">Pengurus</dt>
                     <dd class="col-sm-8">{{title_case($vendor->officer)}}</dd>
 
                     <dt class="col-sm-4">Mykad</dt>

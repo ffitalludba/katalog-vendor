@@ -29,7 +29,7 @@
                         <tr>
 
                             <th scope="col">Syarikat</th>
-                            <th scope="col">Pegawai</th>
+                            <th scope="col">Pengurus</th>
                             <th scope="col">Telefon</th>
                             <th scope="col">Emel</th>
 

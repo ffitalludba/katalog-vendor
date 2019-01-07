@@ -11,6 +11,8 @@
 
     <meta name="author" content="">
 
+    <meta name="Accept-">
+
     {{--<link rel="icon" href="../../../../favicon.ico">--}}
 
     <title>MPSPK | Maklumat Kontraktor & Pembekal</title>
@@ -220,7 +222,7 @@
                            href="{{route('vendor-doc.index')}}">
 
                             <span data-feather="home"></span>
-                            Senarai
+                            Senarai Kontraktor
 
                         </a>
 
@@ -232,7 +234,7 @@
                            href="{{route('vendor-doc.create')}}">
 
                             <span data-feather="file"></span>
-                            Daftar
+                            Daftar Baharu
 
                         </a>
 

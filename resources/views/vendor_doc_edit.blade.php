@@ -51,59 +51,17 @@
 
                     <legend>Butiran Pendaftaran</legend>
 
-                    {{--Input syarikat & pegawai--}}
+                    {{--Input syarikat--}}
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-12">
 
                             <label for="inputSyarikat">Syarikat</label>
 
                             <input id="inputSyarikat" name="syarikat" type="text"
                                    class="form-control form-control-sm"
                                    value="{{old('syarikat',$syarikat)}}" readonly>
-
-                        </div>
-
-                        <div class="form-group col-md-4">
-
-                            <label for="inputPegawai">Pegawai</label>
-
-                            <input id="inputPegawai" name="pegawai" type="text"
-                                   class="form-control form-control-sm {{$errors->has('pegawai') ? 'is-invalid' : ''}}"
-                                   placeholder="Nama penuh pegawai"
-                                   value="{{old('pegawai',$pegawai)}}">
-
-                            @if($errors->has('pegawai'))
-
-                                <div class="invalid-feedback">
-
-                                    {{ $errors->first('pegawai') }}
-
-                                </div>
-
-                            @endif
-
-                        </div>
-
-                        <div class="form-group col-md-4">
-
-                            <label for="inputMykad">Mykad</label>
-
-                            <input id="inputMykad" name="mykad" type="text"
-                                   class="form-control form-control-sm {{$errors->has('mykad') ? 'is-invalid' : ''}}"
-                                   placeholder="xxxxxx-xx-xxxx"
-                                   value="{{old('mykad',$mykad)}}">
-
-                            @if($errors->has('mykad'))
-
-                                <div class="invalid-feedback">
-
-                                    {{ $errors->first('mykad') }}
-
-                                </div>
-
-                            @endif
 
                         </div>
 
@@ -251,6 +209,54 @@
                                 <div class="invalid-feedback">
 
                                     {{$errors->first('emel')}}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                    {{--Input Pegawai--}}
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6">
+
+                            <label for="inputPengurus">Pengurus</label>
+
+                            <input id="inputPengurus" name="pengurus" type="text"
+                                   class="form-control form-control-sm {{$errors->has('pengurus') ? 'is-invalid' : ''}}"
+                                   placeholder="Nama penuh pengurus"
+                                   value="{{old('pengurus',$pengurus)}}">
+
+                            @if($errors->has('pengurus'))
+
+                                <div class="invalid-feedback">
+
+                                    {{ $errors->first('pengurus') }}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        <div class="form-group col-md-6">
+
+                            <label for="inputMykad">Mykad</label>
+
+                            <input id="inputMykad" name="mykad" type="text"
+                                   class="form-control form-control-sm {{$errors->has('mykad') ? 'is-invalid' : ''}}"
+                                   placeholder="xxxxxx-xx-xxxx"
+                                   value="{{old('mykad',$mykad)}}">
+
+                            @if($errors->has('mykad'))
+
+                                <div class="invalid-feedback">
+
+                                    {{ $errors->first('mykad') }}
 
                                 </div>
 

@@ -36,7 +36,9 @@ class VendorDocController extends Controller
     {
         // Get tuples from mof_ref table.
 
-        $mofTuples = DB::table('mof_ref')->get();
+        $mofTuples = DB::table('mof_ref')
+            ->orderBy('code')
+            ->get();
 
         // Get tuples from cidb_ref table.
 
@@ -97,8 +99,6 @@ class VendorDocController extends Controller
 
         $rules = [
             'syarikat' => 'required|unique:vendor_doc,name|string',
-            'pegawai' => 'required|string',
-            'mykad' => 'required|string',
             'alamat' => 'required|string',
             'alamat1' => 'nullable|string',
             'poskod' => 'required|digits:5',
@@ -106,6 +106,8 @@ class VendorDocController extends Controller
             'negeri' => 'required|string',
             'telefon' => 'nullable|digits_between:8,10',
             'emel' => 'nullable|email',
+            'pengurus' => 'required|string',
+            'mykad' => 'required|regex:/^\d{6}-\d{2}-\d{4}$/',
             'bank' => 'required|string',
             'bankAkaun' => 'required|string',
             'daftarMpspk' => 'nullable',
@@ -181,8 +183,6 @@ class VendorDocController extends Controller
             ->insertGetId([
                 'id' => (string)Str::uuid(),
                 'name' => title_case($request->input('syarikat')),
-                'officer' => title_case($request->input('pegawai')),
-                'mykad' => $request->input('mykad'),
                 'address' => title_case($request->input('alamat')),
                 'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
                 'town' => title_case($request->input('bandar')),
@@ -190,6 +190,8 @@ class VendorDocController extends Controller
                 'state' => title_case($request->input('negeri')),
                 'telephone' => $request->input('telefon'),
                 'email' => $request->input('emel') !== null ? strtolower($request->input('emel')) : null,
+                'officer' => title_case($request->input('pengurus')),
+                'mykad' => $request->input('mykad'),
                 'bank' => $request->input('bank'),
                 'bank_account' => $request->input('bankAkaun'),
                 'ssm_id' => $request->input('sijilSsm'),
@@ -405,6 +407,7 @@ class VendorDocController extends Controller
         // Get all tuples from mof_ref table.
 
         $mofRefTuples = DB::table('mof_ref')
+            ->orderBy('code')
             ->get();
 
         // Get all tuples from cidb_ref table.
@@ -418,8 +421,6 @@ class VendorDocController extends Controller
         return view('vendor_doc_edit', [
             'id' => optional($vendorTuple)->id,
             'syarikat' => optional($vendorTuple)->name,
-            'pegawai' => optional($vendorTuple)->officer,
-            'mykad' => optional($vendorTuple)->mykad,
             'alamat' => optional($vendorTuple)->address,
             'alamat1' => optional($vendorTuple)->address1,
             'poskod' => optional($vendorTuple)->postcode,
@@ -427,6 +428,8 @@ class VendorDocController extends Controller
             'negeri' => optional($vendorTuple)->state,
             'telefon' => optional($vendorTuple)->telephone,
             'emel' => optional($vendorTuple)->email,
+            'pengurus' => optional($vendorTuple)->officer,
+            'mykad' => optional($vendorTuple)->mykad,
             'bank' => optional($vendorTuple)->bank,
             'bankAkaun' => optional($vendorTuple)->bank_account,
             'daftarMpspk' => optional($vendorTuple)->mpspk_id !== null ? 'on' : '',
@@ -488,8 +491,6 @@ class VendorDocController extends Controller
 
         $rules = [
             'syarikat' => 'required|string',
-            'pegawai' => 'required|string',
-            'mykad' => 'required|string',
             'alamat' => 'required|string',
             'alamat1' => 'nullable|string',
             'poskod' => 'required|digits:5',
@@ -497,6 +498,8 @@ class VendorDocController extends Controller
             'negeri' => 'required|string',
             'telefon' => 'nullable|digits_between:8,10',
             'emel' => 'nullable|email',
+            'pengurus' => 'required|string',
+            'mykad' => 'required|regex:/^\d{6}-\d{2}-\d{4}$/',
             'bank' => 'required|string',
             'bankAkaun' => 'required|string',
             'daftarMpspk' => 'nullable',
@@ -563,8 +566,6 @@ class VendorDocController extends Controller
         DB::table('vendor_doc')
             ->where('id', $id)
             ->update([
-                'officer' => title_case($request->input('pegawai')),
-                'mykad' => $request->input('mykad'),
                 'address' => title_case($request->input('alamat')),
                 'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
                 'town' => title_case($request->input('bandar')),
@@ -572,6 +573,8 @@ class VendorDocController extends Controller
                 'state' => title_case($request->input('negeri')),
                 'telephone' => $request->input('telefon'),
                 'email' => $request->input('emel') !== null ? strtolower($request->input('emel')) : null,
+                'officer' => title_case($request->input('pengurus')),
+                'mykad' => $request->input('mykad'),
                 'bank' => $request->input('bank'),
                 'bank_account' => $request->input('bankAkaun'),
                 'ssm_id' => $request->input('sijilSsm'),
