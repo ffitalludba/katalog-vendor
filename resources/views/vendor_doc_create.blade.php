@@ -41,7 +41,7 @@
 
         <div class="card-body">
 
-            <form class="needs-validation" novalidate method="post" action="{{route('vendor-doc.store')}}">
+            <form class="needs-validation p-3" novalidate method="post" action="{{route('vendor-doc.store')}}">
 
                 @csrf
 
@@ -59,7 +59,8 @@
 
                             <input id="inputSyarikat" name="syarikat" type="text"
                                    class="form-control form-control-sm {{$errors->has('syarikat') ? 'is-invalid' : ''}}"
-                                   placeholder="Nama rasmi syarikat" value="{{old('syarikat')}}">
+                                   placeholder="Nama rasmi syarikat" value="{{old('syarikat')}}" data-toggle="tooltip"
+                                   data-placement="top" title="Sila taip huruf besar sahaja dan elakkan ruang ganda.">
 
                             @if($errors->has('syarikat'))
 
@@ -182,13 +183,13 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
 
-                            <label for="inputTelefon">Telefon</label>
+                            <label for="inputTelefon">Telefon Pejabat</label>
 
                             <input id="inputTelefon" name="telefon" type="text"
                                    class="form-control form-control-sm {{$errors->has('telefon') ? 'is-invalid' : ''}}"
-                                   placeholder="Nombor telefon bimbit atau talian tetap" value="{{old('telefon')}}">
+                                   placeholder="Nombor telefon talian tetap" value="{{old('telefon')}}">
 
                             @if($errors->has('telefon'))
 
@@ -202,7 +203,27 @@
 
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+
+                            <label for="inputTelefon1">Telefon Bimbit</label>
+
+                            <input id="inputTelefon1" name="telefon1" type="text"
+                                   class="form-control form-control-sm {{$errors->has('telefon1') ? 'is-invalid' : ''}}"
+                                   placeholder="Nombor telefon bimbit" value="{{old('telefon1')}}">
+
+                            @if($errors->has('telefon1'))
+
+                                <div class="invalid-feedback">
+
+                                    {{$errors->first('telefon1')}}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        <div class="form-group col-md-4">
 
                             <label for="inputEmel">Emel</label>
 
@@ -1306,102 +1327,18 @@
 
                                 </div>
 
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    {{--PKK Card--}}
-
-                    <div class="card  bg-light mb-3">
-
-                        <div class="card-body">
-
-                            {{--Suis panel PKK--}}
-
-                            <div class="form-row">
-
-                                <div class="form-group">
-
-                                    <div class="form-check form-check-inline">
-
-                                        <input class="form-check-input" type="checkbox" id="daftarPkk"
-                                               name="daftarPkk"
-                                               data-toggle="collapse"
-                                               data-target="#panelPkk" {{(old('daftarPkk') === 'on') ? 'checked' : ''}}>
-                                        <label class="form-check-label font-weight-bold" for="daftarPkk">Sijil
-                                            PKK</label>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            {{--Panel PKK--}}
-
-                            <div class="collapse {{(old('daftarPkk') === 'on') ? 'show' : ''}}" id="panelPkk">
-
                                 <div class="form-row">
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group">
 
-                                        <label for="inputPKK"># Pendaftaran</label>
+                                        <div class="form-check form-check-inline">
 
-                                        <input id="inputPKK" name="sijilPkk" type="text"
-                                               class="form-control form-control-sm {{$errors->has('sijilPkk') ? 'is-invalid' : ''}}"
-                                               placeholder="Nombor Pendaftaran PKK" value="{{old('sijilPkk')}}">
+                                            <input class="form-check-input" type="checkbox" id="bumiputra"
+                                                   name="bumiputra" {{(old('bumiputra') === 'on') ? 'checked' : ''}}>
+                                            <label class="form-check-label" for="bumiputra">Taraf bumiputra (memiliki
+                                                SPKK)</label>
 
-                                        @if($errors->has('sijilPkk'))
-
-                                            <div class="invalid-feedback">
-
-                                                {{$errors->first('sijilPkk')}}
-
-                                            </div>
-
-                                        @endif
-
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-
-                                        <label for="inputPKKMula">Mula</label>
-
-                                        <input id="inputPKKMula" name="pkkMula" type="date"
-                                               class="form-control form-control-sm {{$errors->has('pkkMula') ? 'is-invalid' : ''}}"
-                                               value="{{old('pkkMula')}}">
-
-                                        @if($errors->has('pkkMula'))
-
-                                            <div class="invalid-feedback">
-
-                                                {{$errors->first('pkkMula')}}
-
-                                            </div>
-
-                                        @endif
-
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-
-                                        <label for="inputPKKTamat">Tamat</label>
-
-                                        <input id="inputPKKTamat" name="pkkTamat" type="date"
-                                               class="form-control form-control-sm {{$errors->has('pkkTamat') ? 'is-invalid' : ''}}"
-                                               value="{{old('pkkTamat')}}">
-
-                                        @if($errors->has('pkkTamat'))
-
-                                            <div class="invalid-feedback">
-
-                                                {{$errors->first('pkkTamat')}}
-
-                                            </div>
-
-                                        @endif
+                                        </div>
 
                                     </div>
 
@@ -1415,11 +1352,7 @@
 
                     {{--Butang Hantar--}}
 
-                    <div class="form-row">
-
-                        <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
 
                 </fieldset>
 
@@ -1450,6 +1383,8 @@
                 deselectAllText: 'Hapus Semua',
                 multipleSeparator: ', '
             };
+
+            $('[data-toggle="tooltip"]').tooltip();
 
         })(jQuery);
 

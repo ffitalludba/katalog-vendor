@@ -98,13 +98,14 @@ class VendorDocController extends Controller
         // Declare validation rules.
 
         $rules = [
-            'syarikat' => 'required|unique:vendor_doc,name|string',
+            'syarikat' => ['required', 'regex:/^[A-Z\s]+$/', 'not_regex:/\s{2,}/', 'unique:vendor_doc,name'],
             'alamat' => 'required|string',
             'alamat1' => 'nullable|string',
             'poskod' => 'required|digits:5',
             'bandar' => 'required|string',
             'negeri' => 'required|string',
             'telefon' => 'nullable|digits_between:8,10',
+            'telefon1' => 'nullable|digits_between:8,10',
             'emel' => 'nullable|email',
             'pengurus' => 'required|string',
             'mykad' => 'required|regex:/^\d{6}-\d{2}-\d{4}$/',
@@ -139,10 +140,7 @@ class VendorDocController extends Controller
             'cidbBidangF' => 'nullable',
             'cidbBidangFgred' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
             'cidbBidangFkod' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
-            'daftarPkk' => 'nullable',
-            'sijilPkk' => 'nullable|required_if:daftarPkk,on',
-            'pkkMula' => 'nullable|required_if:daftarPkk,on|date',
-            'pkkTamat' => 'nullable|required_if:daftarPkk,on|date|after:pkkMula',
+            'bumiputra' => 'nullable'
         ];
 
         // Declare optional validation rules.
@@ -182,33 +180,32 @@ class VendorDocController extends Controller
         $id = DB::table('vendor_doc')
             ->insertGetId([
                 'id' => (string)Str::uuid(),
-                'name' => title_case($request->input('syarikat')),
-                'address' => title_case($request->input('alamat')),
-                'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
-                'town' => title_case($request->input('bandar')),
+                'name' => strtoupper($request->input('syarikat')),
+                'address' => strtoupper($request->input('alamat')),
+                'address1' => $request->input('alamat1') !== null ? strtoupper($request->input('alamat1')) : null,
+                'town' => strtoupper($request->input('bandar')),
                 'postcode' => $request->input('poskod'),
-                'state' => title_case($request->input('negeri')),
+                'state' => strtoupper($request->input('negeri')),
                 'telephone' => $request->input('telefon'),
+                'telephone1' => $request->input('telefon1'),
                 'email' => $request->input('emel') !== null ? strtolower($request->input('emel')) : null,
                 'officer' => title_case($request->input('pengurus')),
                 'mykad' => $request->input('mykad'),
-                'bank' => $request->input('bank'),
+                'bank' => title_case($request->input('bank')),
                 'bank_account' => $request->input('bankAkaun'),
-                'ssm_id' => $request->input('sijilSsm'),
-                'ssm_start' => $request->input('ssmMula'),
-                'ssm_thru' => $request->input('ssmTamat'),
                 'mpspk_id' => $request->input('sijilMpspk'),
                 'mpspk_start' => $request->input('mpspkMula'),
                 'mpspk_thru' => $request->input('mpspkTamat'),
-                'cidb_id' => $request->input('sijilCidb'),
-                'cidb_start' => $request->input('cidbMula'),
-                'cidb_thru' => $request->input('cidbTamat'),
-                'pkk_id' => $request->input('sijilPkk'),
-                'pkk_start' => $request->input('pkkMula'),
-                'pkk_thru' => $request->input('pkkTamat'),
-                'mof_id' => $request->input('sijilMof'),
-                'mof_start' => $request->input('mofMula'),
-                'mof_thru' => $request->input('mofTamat')
+                'ssm_id' => $request->input('daftarSsm') === 'on' ? $request->input('sijilSsm') : null,
+                'ssm_start' => $request->input('daftarSsm') === 'on' ? $request->input('ssmMula') : null,
+                'ssm_thru' => $request->input('daftarSsm') === 'on' ? $request->input('ssmTamat') : null,
+                'mof_id' => $request->input('daftarMof') === 'on' ? $request->input('sijilMof') : null,
+                'mof_start' => $request->input('daftarMof') === 'on' ? $request->input('mofMula') : null,
+                'mof_thru' => $request->input('daftarMof') === 'on' ? $request->input('mofTamat') : null,
+                'cidb_id' => $request->input('daftarCidb') === 'on' ? $request->input('sijilCidb') : null,
+                'cidb_start' => $request->input('daftarCidb') === 'on' ? $request->input('cidbMula') : null,
+                'cidb_thru' => $request->input('daftarCidb') === 'on' ? $request->input('cidbTamat') : null,
+                'bumiputra' => $request->input('daftarCidb') === 'on' ? $request->input('bumiputra') : null
             ], 'id');
 
         // Insert mof_details tuples.
@@ -427,6 +424,7 @@ class VendorDocController extends Controller
             'bandar' => optional($vendorTuple)->town,
             'negeri' => optional($vendorTuple)->state,
             'telefon' => optional($vendorTuple)->telephone,
+            'telefon1' => optional($vendorTuple)->telephone1,
             'emel' => optional($vendorTuple)->email,
             'pengurus' => optional($vendorTuple)->officer,
             'mykad' => optional($vendorTuple)->mykad,
@@ -471,10 +469,7 @@ class VendorDocController extends Controller
             'cidbBidangFkod' => optional($cidbFtuples)->map(function ($value) {
                 return $value->cidb_id;
             })->toArray(),
-            'daftarPkk' => optional($vendorTuple)->pkk_id !== null ? 'on' : '',
-            'sijilPkk' => optional($vendorTuple)->pkk_id,
-            'pkkMula' => optional($vendorTuple)->pkk_start !== null ? date('Y-m-d', strtotime($vendorTuple->pkk_start)) : null,
-            'pkkTamat' => optional($vendorTuple)->pkk_thru !== null ? date('Y-m-d', strtotime($vendorTuple->pkk_thru)) : null,
+            'bumiputra' => optional($vendorTuple)->bumiputra !== null ? 'on' : ''
         ]);
     }
 
@@ -490,13 +485,14 @@ class VendorDocController extends Controller
         // Declare validation rules.
 
         $rules = [
-            'syarikat' => 'required|string',
+            'syarikat' => ['required', 'regex:/^[A-Z\s]+$/', 'not_regex:/\s{2,}/'],
             'alamat' => 'required|string',
             'alamat1' => 'nullable|string',
             'poskod' => 'required|digits:5',
             'bandar' => 'required|string',
             'negeri' => 'required|string',
             'telefon' => 'nullable|digits_between:8,10',
+            'telefon1' => 'nullable|digits_between:8,10',
             'emel' => 'nullable|email',
             'pengurus' => 'required|string',
             'mykad' => 'required|regex:/^\d{6}-\d{2}-\d{4}$/',
@@ -531,10 +527,7 @@ class VendorDocController extends Controller
             'cidbBidangF' => 'nullable',
             'cidbBidangFgred' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
             'cidbBidangFkod' => 'nullable|required_with_all:cidbBidangF,daftarCidb',
-            'daftarPkk' => 'nullable',
-            'sijilPkk' => 'nullable|required_if:daftarPkk,on',
-            'pkkMula' => 'nullable|required_if:daftarPkk,on|date',
-            'pkkTamat' => 'nullable|required_if:daftarPkk,on|date|after:pkkMula',
+            'bumiputra' => 'nullable'
         ];
 
         // Declare optional validation rules.
@@ -566,32 +559,31 @@ class VendorDocController extends Controller
         DB::table('vendor_doc')
             ->where('id', $id)
             ->update([
-                'address' => title_case($request->input('alamat')),
-                'address1' => $request->input('alamat1') !== null ? title_case($request->input('alamat1')) : null,
-                'town' => title_case($request->input('bandar')),
+                'address' => strtoupper($request->input('alamat')),
+                'address1' => $request->input('alamat1') !== null ? strtoupper($request->input('alamat1')) : null,
+                'town' => strtoupper($request->input('bandar')),
                 'postcode' => $request->input('poskod'),
-                'state' => title_case($request->input('negeri')),
+                'state' => strtoupper($request->input('negeri')),
                 'telephone' => $request->input('telefon'),
+                'telephone1' => $request->input('telefon1'),
                 'email' => $request->input('emel') !== null ? strtolower($request->input('emel')) : null,
                 'officer' => title_case($request->input('pengurus')),
                 'mykad' => $request->input('mykad'),
-                'bank' => $request->input('bank'),
+                'bank' => title_case($request->input('bank')),
                 'bank_account' => $request->input('bankAkaun'),
-                'ssm_id' => $request->input('sijilSsm'),
-                'ssm_start' => $request->input('ssmMula'),
-                'ssm_thru' => $request->input('ssmTamat'),
                 'mpspk_id' => $request->input('sijilMpspk'),
                 'mpspk_start' => $request->input('mpspkMula'),
                 'mpspk_thru' => $request->input('mpspkTamat'),
-                'cidb_id' => $request->input('sijilCidb'),
-                'cidb_start' => $request->input('cidbMula'),
-                'cidb_thru' => $request->input('cidbTamat'),
-                'pkk_id' => $request->input('sijilPkk'),
-                'pkk_start' => $request->input('pkkMula'),
-                'pkk_thru' => $request->input('pkkTamat'),
-                'mof_id' => $request->input('sijilMof'),
-                'mof_start' => $request->input('mofMula'),
-                'mof_thru' => $request->input('mofTamat')
+                'ssm_id' => $request->input('daftarSsm') === 'on' ? $request->input('sijilSsm') : null,
+                'ssm_start' => $request->input('daftarSsm') === 'on' ? $request->input('ssmMula') : null,
+                'ssm_thru' => $request->input('daftarSsm') === 'on' ? $request->input('ssmTamat') : null,
+                'mof_id' => $request->input('daftarMof') === 'on' ? $request->input('sijilMof') : null,
+                'mof_start' => $request->input('daftarMof') === 'on' ? $request->input('mofMula') : null,
+                'mof_thru' => $request->input('daftarMof') === 'on' ? $request->input('mofTamat') : null,
+                'cidb_id' => $request->input('daftarCidb') === 'on' ? $request->input('sijilCidb') : null,
+                'cidb_start' => $request->input('daftarCidb') === 'on' ? $request->input('cidbMula') : null,
+                'cidb_thru' => $request->input('daftarCidb') === 'on' ? $request->input('cidbTamat') : null,
+                'bumiputra' => $request->input('daftarCidb') === 'on' ? $request->input('bumiputra') : null
             ]);
 
         // Delete tuples on cidb_details.

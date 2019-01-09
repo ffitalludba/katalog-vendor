@@ -1,13 +1,13 @@
 @extends('v2_vendor_doc_layout')
 
-@section('title',title_case($vendor->name))
+@section('title',$vendor->name)
 
 @section('action')
 
-    <a class="btn btn-sm btn-outline-secondary" href="{{route('vendor-doc.edit', ['id' => $vendor->id])}}"
+    <a class="btn btn-sm btn-secondary" href="{{route('vendor-doc.edit', ['id' => $vendor->id])}}"
        role="button">Ubah</a>
-    <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">Hapus</button>
-    <a class="btn btn-sm btn-outline-secondary" href="{{route('vendor-certificate', ['id' => $vendor->id])}}"
+    <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#exampleModal">Hapus</button>
+    <a class="btn btn-sm btn-secondary" href="{{route('vendor-certificate', ['id' => $vendor->id])}}"
        role="button">Sijil Perakuan</a>
 
 @endsection
@@ -57,12 +57,12 @@
                 <dl class="row">
 
                     <dt class="col-sm-4">Alamat</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->address)}}</dd>
+                    <dd class="col-sm-8">{{$vendor->address}}</dd>
 
                     @if($vendor->address1 !== null)
 
                         <dt class="col-sm-4">Alamat (1)</dt>
-                        <dd class="col-sm-8">{{title_case($vendor->address1)}}</dd>
+                        <dd class="col-sm-8">{{$vendor->address1}}</dd>
 
                     @endif
 
@@ -70,10 +70,10 @@
                     <dd class="col-sm-8">{{$vendor->postcode}}</dd>
 
                     <dt class="col-sm-4">Bandar</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->town)}}</dd>
+                    <dd class="col-sm-8">{{$vendor->town}}</dd>
 
                     <dt class="col-sm-4">Negeri</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->state)}}</dd>
+                    <dd class="col-sm-8">{{$vendor->state}}</dd>
 
                 </dl>
 
@@ -162,30 +162,12 @@
                             {{date("d M Y", strtotime($vendor->cidb_start))}} &ndash;
                             {{date("d M Y", strtotime($vendor->cidb_thru))}}</dd>
 
+                        <dt class="col-sm-4">Taraf bumiputra</dt>
+                        <dd class="col-sm-8">{{$vendor->bumiputra === true ? 'Ya' : 'Tidak'}}</dd>
+
                     @else
 
                         <dt class="col-sm-4"># CIDB</dt>
-                        <dd class="col-sm-8"><span class="badge badge-secondary">Tiada</span></dd>
-
-                    @endif
-
-                </dl>
-
-                <dl class="row">
-
-                    @if($vendor->pkk_id !== null)
-
-                        <dt class="col-sm-4"># PKK</dt>
-                        <dd class="col-sm-8">{{$vendor->pkk_id}}</dd>
-
-                        <dt class="col-sm-4">Tempoh Sah</dt>
-                        <dd class="col-sm-8">
-                            {{date("d M Y", strtotime($vendor->pkk_start))}} &ndash;
-                            {{date("d M Y", strtotime($vendor->pkk_thru))}}</dd>
-
-                    @else
-
-                        <dt class="col-sm-4"># PKK</dt>
                         <dd class="col-sm-8"><span class="badge badge-secondary">Tiada</span></dd>
 
                     @endif
@@ -210,12 +192,27 @@
                     <dt class="col-sm-4">Mykad</dt>
                     <dd class="col-sm-8">{{title_case($vendor->mykad)}}</dd>
 
-                    <dt class="col-sm-4">Telefon</dt>
+                    <dt class="col-sm-4">Telefon Pejabat</dt>
                     <dd class="col-sm-8">
 
                         @if($vendor->telephone !== null)
 
                             {{$vendor->telephone}}
+
+                        @else
+
+                            <span class="badge badge-secondary">Tiada</span>
+
+                        @endif
+
+                    </dd>
+
+                    <dt class="col-sm-4">Telefon Bimbit</dt>
+                    <dd class="col-sm-8">
+
+                        @if($vendor->telephone1 !== null)
+
+                            {{$vendor->telephone1}}
 
                         @else
 
@@ -267,6 +264,8 @@
                     <div class="table-responsive">
 
                         <table class="table table-striped table-bordered table-sm">
+
+                            <caption>{{'('.$cidbTuples->count().' pengkhususan CIDB)'}}</caption>
 
                             <thead>
 
@@ -342,6 +341,8 @@
                     <div class="table-responsive">
 
                         <table class="table table-striped table-bordered table-sm">
+
+                            <caption>{{'('.$mofTuples->count().' bidang MOF)'}}</caption>
 
                             <thead>
 

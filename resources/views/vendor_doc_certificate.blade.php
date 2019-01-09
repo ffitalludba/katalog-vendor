@@ -70,13 +70,15 @@
 
     <p><strong><u>NAMA DAN ALAMAT BERDAFTAR</u></strong></p>
 
-    <p><strong>{{$vendor->name}}</strong><br>{{$vendor->address}}<br>{{$vendor->postcode}} {{$vendor->town}}
+    <p>
+        <strong>{{$vendor->name}}</strong><br>{{$vendor->address}}{!! $vendor->address1 !== null ? '<br>'.$vendor->address1 : '' !!}
+        <br>{{$vendor->postcode}} {{$vendor->town}}
         <br>{{$vendor->state}}<br><strong>(NO.
             SYARIKAT: {{$vendor->ssm_id}})</strong></p>
 
     <p>&nbsp;</p>
 
-    <p>&nbsp;</p>
+    {{--<p>&nbsp;</p>--}}
 
     <p>t.t<br>(NAMA KETUA JABATAN)<br><strong>KETUA JABATAN KEJURUTERAAN</strong></p>
 

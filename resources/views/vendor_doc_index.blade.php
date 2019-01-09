@@ -20,7 +20,7 @@
 
             @if($vendors->isNotEmpty())
 
-                <div class="table-responsive">
+                <div class="table-responsive p-3">
 
                     <table id="tableVendor" class="table table-striped table-sm">
 
