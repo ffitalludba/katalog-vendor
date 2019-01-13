@@ -4,10 +4,8 @@
 
     @parent
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"/>
-
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/css/bootstrap-select.min.css">
 
 
 @endsection
@@ -60,7 +58,8 @@
                             <input id="inputSyarikat" name="syarikat" type="text"
                                    class="form-control form-control-sm {{$errors->has('syarikat') ? 'is-invalid' : ''}}"
                                    placeholder="Nama rasmi syarikat" value="{{old('syarikat')}}" data-toggle="tooltip"
-                                   data-placement="top" title="Sila taip huruf besar sahaja dan elakkan ruang ganda.">
+                                   data-placement="top" title="Sila taip huruf besar sahaja dan elakkan ruang ganda."
+                                   autofocus>
 
                             @if($errors->has('syarikat'))
 
@@ -784,6 +783,194 @@
 
                                 </div>
 
+                                {{--G1--}}
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+
+                                        <label for="cidbGredG1">Gred G1</label>
+
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG1') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG1" name="cidbGredG1[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
+
+                                            <optgroup label="B: Pembinaan Bangunan">
+
+                                                @foreach ($cidbBtuples as $cidb)
+
+                                                    @if(old('cidbGredG1') === null)
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
+
+                                                    @else
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}"
+                                                            {{in_array($cidb->id, old('cidbGredG1')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                    @endif
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
+
+                                                @foreach ($cidbCeTuples as $cidb)
+
+                                                    @if(old('cidbGredG1') === null)
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
+
+                                                    @else
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}"
+                                                            {{in_array($cidb->id, old('cidbGredG1')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                    @endif
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
+
+                                                @foreach ($cidbMeTuples as $cidb)
+
+                                                    @if(old('cidbGredG1') === null)
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
+
+                                                    @else
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}"
+                                                            {{in_array($cidb->id, old('cidbGredG1')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                    @endif
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                        </select>
+
+                                        @if($errors->has('cidbGredG1'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('cidbGredG1')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                                {{--G2--}}
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+
+                                        <label for="cidbGredG2">Gred G2</label>
+
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG2') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG2" name="cidbGredG2[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
+
+                                            <optgroup label="B: Pembinaan Bangunan">
+
+                                                @foreach ($cidbBtuples as $cidb)
+
+                                                    @if(old('cidbGredG2') === null)
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
+
+                                                    @else
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}"
+                                                            {{in_array($cidb->id, old('cidbGredG2')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                    @endif
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
+
+                                                @foreach ($cidbCeTuples as $cidb)
+
+                                                    @if(old('cidbGredG2') === null)
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
+
+                                                    @else
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}"
+                                                            {{in_array($cidb->id, old('cidbGredG2')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                    @endif
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
+
+                                                @foreach ($cidbMeTuples as $cidb)
+
+                                                    @if(old('cidbGredG2') === null)
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
+
+                                                    @else
+
+                                                        <option value="{{$cidb->id}}"
+                                                                data-subtext="{{title_case($cidb->description)}}"
+                                                            {{in_array($cidb->id, old('cidbGredG2')) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                    @endif
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                        </select>
+
+                                        @if($errors->has('cidbGredG2'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('cidbGredG2')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
                                 {{--Card bidang 'B'--}}
 
                                 <div class="card mb-3">
@@ -1327,6 +1514,8 @@
 
                                 </div>
 
+                                {{--Taraf bumiputra--}}
+
                                 <div class="form-row">
 
                                     <div class="form-group">
@@ -1368,7 +1557,7 @@
 
     @parent
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/js/bootstrap-select.min.js"></script>
 
     <script>
 

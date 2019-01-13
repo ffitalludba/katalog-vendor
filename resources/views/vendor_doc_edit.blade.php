@@ -4,10 +4,8 @@
 
     @parent
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"/>
-
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/css/bootstrap-select.min.css">
 
 
 @endsection
@@ -1361,6 +1359,8 @@
 
                                 </div>
 
+                                {{--Taraf bumiputra--}}
+
                                 <div class="form-row">
 
                                     <div class="form-group">
@@ -1387,7 +1387,7 @@
                     {{--Butang Batal dan Hantar--}}
 
                     <a class="btn btn-sm btn-secondary" href="{{route('vendor-doc.show', ['id' => $id])}}"
-                       role="button">Batal</a>
+                       role="button">Kembali</a>
 
                     <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
 
@@ -1405,7 +1405,7 @@
 
     @parent
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/js/bootstrap-select.min.js"></script>
 
     <script>
 
