@@ -651,26 +651,14 @@
                                                 multiple data-live-search="true" data-size="7" data-actions-box="true"
                                                 data-style="btn">
 
-                                            @if(old('mofs',$mofTuples) === null)
+                                            @foreach ($mofRefTuples as $value)
 
-                                                @foreach ($mofs as $mof)
+                                                <option
+                                                    value="{{$value->id}}"
+                                                    data-subtext="{{$value->description}}"
+                                                    {{in_array($value->id,old('mofs',$mofs)) ? 'selected' : ''}}>{{$value->code}}</option>
 
-                                                    <option value="{{$mof->id}}"
-                                                            data-subtext="{{$mof->description}}">{{$mof->code}}</option>
-
-                                                @endforeach
-
-                                            @else
-
-                                                @foreach ($mofs as $mof)
-
-                                                    <option value="{{$mof->id}}"
-                                                            data-subtext="{{$mof->description}}"
-                                                        {{in_array($mof->id,old('mofs',$mofTuples)) ? 'selected' : ''}}>{{$mof->code}}</option>
-
-                                                @endforeach
-
-                                            @endif
+                                            @endforeach
 
                                         </select>
 
@@ -792,568 +780,543 @@
 
                                 </div>
 
-                                {{--Card bidang 'B'--}}
+                                {{--G1--}}
 
-                                <div class="card mb-3">
+                                <div class="form-row">
 
-                                    <div class="card-body">
+                                    <div class="form-group col-md-12">
 
-                                        <div class="form-row">
+                                        <label for="cidbGredG1">Gred G1</label>
 
-                                            <div class="form-group col-md-12">
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG1') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG1" name="cidbGredG1[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
 
-                                                <div class="form-check form-check-inline">
+                                            <optgroup label="B: Pembinaan Bangunan">
 
-                                                    <input
-                                                        class="form-check-input {{$errors->has('cidbBidangB') ? 'is-invalid' : ''}}"
-                                                        type="checkbox" id="cidbBidangB"
-                                                        name="cidbBidangB"
-                                                        data-toggle="collapse"
-                                                        data-target="#cidbBidangBpanel" {{(old('cidbBidangB',$cidbBidangB) === 'on') ? 'checked' : ''}}>
+                                                @foreach ($cidbBtuples as $cidb)
 
-                                                    <label class="form-check-label" for="cidbBidangB">B:
-                                                        Bangunan</label>
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG1',$cidbGredG1)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                    @if($errors->has('cidbBidangB'))
+                                                @endforeach
 
-                                                        <div class="invalid-feedback">
+                                            </optgroup>
 
-                                                            {{$errors->first('cidbBidangB')}}
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
 
-                                                        </div>
+                                                @foreach ($cidbCeTuples as $cidb)
 
-                                                    @endif
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG1',$cidbGredG1)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                </div>
+                                                @endforeach
 
-                                            </div>
+                                            </optgroup>
 
-                                        </div>
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
 
-                                        <div id="cidbBidangBpanel"
-                                             class="collapse {{(old('cidbBidangB',$cidbBidangB) === 'on') ? 'show' : ''}}">
+                                                @foreach ($cidbMeTuples as $cidb)
 
-                                            <div class="form-row">
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG1',$cidbGredG1)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                <div class="form-group col-md-6">
+                                                @endforeach
 
-                                                    <label for="cidbBidangBgred">Gred</label>
+                                            </optgroup>
 
-                                                    <select
-                                                        class="custom-select custom-select-sm {{$errors->has('cidbBidangBgred') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangBgred" name="cidbBidangBgred">
+                                        </select>
 
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === null) ? 'selected' : ''}}></option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G1') ? 'selected' : ''}}>
-                                                            G1
-                                                        </option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G2') ? 'selected' : ''}}>
-                                                            G2
-                                                        </option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G3') ? 'selected' : ''}}>
-                                                            G3
-                                                        </option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G4') ? 'selected' : ''}}>
-                                                            G4
-                                                        </option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G5') ? 'selected' : ''}}>
-                                                            G5
-                                                        </option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G6') ? 'selected' : ''}}>
-                                                            G6
-                                                        </option>
-                                                        <option {{(old('cidbBidangBgred',$cidbBidangBgred) === 'G7') ? 'selected' : ''}}>
-                                                            G7
-                                                        </option>
+                                        @if($errors->has('cidbGredG1'))
 
-                                                    </select>
+                                            <div class="invalid-feedback">
 
-                                                    @if($errors->has('cidbBidangBgred'))
-
-                                                        <div class="invalid-feedback">
-
-                                                            {{$errors->first('cidbBidangBgred')}}
-
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
-
-                                                <div class="form-group col-md-6">
-
-                                                    <label for="cidbBidangBkod">Kod Bidang</label>
-
-                                                    <select
-                                                        class="selectpicker form-control form-control-sm {{$errors->has('cidbBidangBkod') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangBkod" name="cidbBidangBkod[]"
-                                                        multiple data-live-search="true" data-size="7"
-                                                        data-actions-box="true"
-                                                        data-style="btn">
-
-                                                        @foreach ($cidbs as $cidb)
-
-                                                            @if ($cidb->type !== 'B')
-
-                                                                @continue
-
-                                                            @endif
-
-                                                            @if(old('cidbBidangBkod',$cidbBidangBkod) === null)
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
-
-                                                            @else
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}"
-                                                                    {{in_array($cidb->id, old('cidbBidangBkod',$cidbBidangBkod)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
-
-                                                            @endif
-
-                                                        @endforeach
-
-                                                    </select>
-
-                                                    @if($errors->has('cidbBidangBkod'))
-
-                                                        <div class="invalid-feedback">
-
-                                                            {{$errors->first('cidbBidangBkod')}}
-
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
+                                                {{$errors->first('cidbGredG1')}}
 
                                             </div>
 
-                                        </div>
+                                        @endif
 
                                     </div>
 
                                 </div>
 
-                                {{--Card bidang 'CE'--}}
+                                {{--G2--}}
 
-                                <div class="card mb-3">
+                                <div class="form-row">
 
-                                    <div class="card-body">
+                                    <div class="form-group col-md-12">
 
-                                        <div class="form-row">
+                                        <label for="cidbGredG2">Gred G2</label>
 
-                                            <div class="form-group col-md-12">
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG2') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG2" name="cidbGredG2[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
 
-                                                <div class="form-check form-check-inline">
+                                            <optgroup label="B: Pembinaan Bangunan">
 
-                                                    <input
-                                                        class="form-check-input {{$errors->has('cidbBidangCe') ? 'is-invalid' : ''}}"
-                                                        type="checkbox" id="cidbBidangCe"
-                                                        name="cidbBidangCe"
-                                                        data-toggle="collapse"
-                                                        data-target="#cidbBidangCePanel" {{(old('cidbBidangCe',$cidbBidangCe) === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangCe">CE: Kejuruteraan
-                                                        Awam</label>
+                                                @foreach ($cidbBtuples as $cidb)
 
-                                                    @if($errors->has('cidbBidangCe'))
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG2',$cidbGredG2)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                        <div class="invalid-feedback">
+                                                @endforeach
 
-                                                            {{$errors->first('cidbBidangCe')}}
+                                            </optgroup>
 
-                                                        </div>
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
 
-                                                    @endif
+                                                @foreach ($cidbCeTuples as $cidb)
 
-                                                </div>
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG2',$cidbGredG2)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                            </div>
+                                                @endforeach
 
-                                        </div>
+                                            </optgroup>
 
-                                        <div id="cidbBidangCePanel"
-                                             class="collapse {{(old('cidbBidangCe',$cidbBidangCe) === 'on') ? 'show' : ''}}">
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
 
-                                            <div class="form-row">
+                                                @foreach ($cidbMeTuples as $cidb)
 
-                                                <div class="form-group col-md-6">
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG2',$cidbGredG2)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                    <label for="cidbBidangCeGred">Gred</label>
+                                                @endforeach
 
-                                                    <select
-                                                        class="custom-select custom-select-sm {{$errors->has('cidbBidangCeGred') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangCeGred" name="cidbBidangCeGred">
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === null) ? 'selected' : ''}}></option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G1') ? 'selected' : ''}}>
-                                                            G1
-                                                        </option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G2') ? 'selected' : ''}}>
-                                                            G2
-                                                        </option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G3') ? 'selected' : ''}}>
-                                                            G3
-                                                        </option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G4') ? 'selected' : ''}}>
-                                                            G4
-                                                        </option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G5') ? 'selected' : ''}}>
-                                                            G5
-                                                        </option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G6') ? 'selected' : ''}}>
-                                                            G6
-                                                        </option>
-                                                        <option {{(old('cidbBidangCeGred',$cidbBidangCeGred) === 'G7') ? 'selected' : ''}}>
-                                                            G7
-                                                        </option>
-                                                    </select>
+                                            </optgroup>
 
-                                                    @if($errors->has('cidbBidangCeGred'))
+                                        </select>
 
-                                                        <div class="invalid-feedback">
+                                        @if($errors->has('cidbGredG2'))
 
-                                                            {{$errors->first('cidbBidangCeGred')}}
+                                            <div class="invalid-feedback">
 
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
-
-                                                <div class="form-group col-md-6">
-
-                                                    <label for="cidbBidangCeKod">Kod Bidang</label>
-
-                                                    <select
-                                                        class="selectpicker form-control form-control-sm {{$errors->has('cidbBidangCeKod') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangCeKod" name="cidbBidangCeKod[]"
-                                                        multiple data-live-search="true" data-size="7"
-                                                        data-actions-box="true"
-                                                        data-style="btn">
-
-                                                        @foreach ($cidbs as $cidb)
-
-                                                            @if ($cidb->type !== 'CE')
-
-                                                                @continue
-
-                                                            @endif
-
-                                                            @if(old('cidbBidangCeKod',$cidbBidangCeKod) === null)
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
-
-                                                            @else
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}"
-                                                                    {{in_array($cidb->id, old('cidbBidangCeKod',$cidbBidangCeKod)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
-
-                                                            @endif
-
-                                                        @endforeach
-
-                                                    </select>
-
-                                                    @if($errors->has('cidbBidangCeKod'))
-
-                                                        <div class="invalid-feedback">
-
-                                                            {{$errors->first('cidbBidangCeKod')}}
-
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
+                                                {{$errors->first('cidbGredG2')}}
 
                                             </div>
 
-                                        </div>
+                                        @endif
 
                                     </div>
 
                                 </div>
 
-                                {{--Card bidang 'ME'--}}
+                                {{--G3--}}
 
-                                <div class="card mb-3">
+                                <div class="form-row">
 
-                                    <div class="card-body">
+                                    <div class="form-group col-md-12">
 
-                                        <div class="form-row">
+                                        <label for="cidbGredG3">Gred G3</label>
 
-                                            <div class="form-group col-md-12">
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG3') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG3" name="cidbGredG3[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
 
-                                                <div class="form-check form-check-inline">
+                                            <optgroup label="B: Pembinaan Bangunan">
 
-                                                    <input
-                                                        class="form-check-input {{$errors->has('cidbBidangMe') ? 'is-invalid' : ''}}"
-                                                        type="checkbox" id="cidbBidangMe"
-                                                        name="cidbBidangMe"
-                                                        data-toggle="collapse"
-                                                        data-target="#cidbBidangMePanel" {{(old('cidbBidangMe',$cidbBidangMe) === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangMe">ME: Mekanikal /
-                                                        Elektrik</label>
+                                                @foreach ($cidbBtuples as $cidb)
 
-                                                    @if($errors->has('cidbBidangMe'))
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG3',$cidbGredG3)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                        <div class="invalid-feedback">
+                                                @endforeach
 
-                                                            {{$errors->first('cidbBidangMe')}}
+                                            </optgroup>
 
-                                                        </div>
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
 
-                                                    @endif
+                                                @foreach ($cidbCeTuples as $cidb)
 
-                                                </div>
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG3',$cidbGredG3)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                            </div>
+                                                @endforeach
 
-                                        </div>
+                                            </optgroup>
 
-                                        <div id="cidbBidangMePanel"
-                                             class="collapse {{(old('cidbBidangMe',$cidbBidangMe) === 'on') ? 'show' : ''}}">
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
 
-                                            <div class="form-row">
+                                                @foreach ($cidbMeTuples as $cidb)
 
-                                                <div class="form-group col-md-6">
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG3',$cidbGredG3)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                    <label for="cidbBidangMeGred">Gred</label>
+                                                @endforeach
 
-                                                    <select
-                                                        class="custom-select custom-select-sm {{$errors->has('cidbBidangMeGred') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangMeGred" name="cidbBidangMeGred">
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === null) ? 'selected' : ''}}></option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G1') ? 'selected' : ''}}>
-                                                            G1
-                                                        </option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G2') ? 'selected' : ''}}>
-                                                            G2
-                                                        </option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G3') ? 'selected' : ''}}>
-                                                            G3
-                                                        </option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G4') ? 'selected' : ''}}>
-                                                            G4
-                                                        </option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G5') ? 'selected' : ''}}>
-                                                            G5
-                                                        </option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G6') ? 'selected' : ''}}>
-                                                            G6
-                                                        </option>
-                                                        <option {{(old('cidbBidangMeGred',$cidbBidangMeGred) === 'G7') ? 'selected' : ''}}>
-                                                            G7
-                                                        </option>
-                                                    </select>
+                                            </optgroup>
 
-                                                    @if($errors->has('cidbBidangMeGred'))
+                                        </select>
 
-                                                        <div class="invalid-feedback">
+                                        @if($errors->has('cidbGredG3'))
 
-                                                            {{$errors->first('cidbBidangMeGred')}}
+                                            <div class="invalid-feedback">
 
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
-
-                                                <div class="form-group col-md-6">
-
-                                                    <label for="cidbBidangMeKod">Kod Bidang</label>
-
-                                                    <select
-                                                        class="selectpicker form-control form-control-sm {{$errors->has('cidbBidangMeKod') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangMeKod" name="cidbBidangMeKod[]"
-                                                        multiple data-live-search="true" data-size="7"
-                                                        data-actions-box="true"
-                                                        data-style="btn">
-
-                                                        @foreach ($cidbs as $cidb)
-
-                                                            @if ($cidb->type !== 'ME')
-
-                                                                @continue
-
-                                                            @endif
-
-                                                            @if(old('cidbBidangMeKod',$cidbBidangMeKod) === null)
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
-
-                                                            @else
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}"
-                                                                    {{in_array($cidb->id, old('cidbBidangMeKod',$cidbBidangMeKod)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
-
-                                                            @endif
-
-                                                        @endforeach
-
-                                                    </select>
-
-                                                    @if($errors->has('cidbBidangMeKod'))
-
-                                                        <div class="invalid-feedback">
-
-                                                            {{$errors->first('cidbBidangMeKod')}}
-
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
+                                                {{$errors->first('cidbGredG3')}}
 
                                             </div>
 
-                                        </div>
+                                        @endif
 
                                     </div>
 
                                 </div>
 
-                                {{--Card bidang 'F'--}}
+                                {{--G4--}}
 
-                                <div class="card mb-3">
+                                <div class="form-row">
 
-                                    <div class="card-body">
+                                    <div class="form-group col-md-12">
 
-                                        <div class="form-row">
+                                        <label for="cidbGredG4">Gred G4</label>
 
-                                            <div class="form-group col-md-12">
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG4') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG4" name="cidbGredG4[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
 
-                                                <div class="form-check form-check-inline">
+                                            <optgroup label="B: Pembinaan Bangunan">
 
-                                                    <input
-                                                        class="form-check-input {{$errors->has('cidbBidangF') ? 'is-invalid' : ''}}"
-                                                        type="checkbox" id="cidbBidangF"
-                                                        name="cidbBidangF"
-                                                        data-toggle="collapse"
-                                                        data-target="#cidbBidangFpanel" {{(old('cidbBidangF',$cidbBidangF) === 'on') ? 'checked' : ''}}>
-                                                    <label class="form-check-label" for="cidbBidangF">F:
-                                                        Fasiliti</label>
+                                                @foreach ($cidbBtuples as $cidb)
 
-                                                    @if($errors->has('cidbBidangF'))
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG4',$cidbGredG4)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                        <div class="invalid-feedback">
+                                                @endforeach
 
-                                                            {{$errors->first('cidbBidangF')}}
+                                            </optgroup>
 
-                                                        </div>
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
 
-                                                    @endif
+                                                @foreach ($cidbCeTuples as $cidb)
 
-                                                </div>
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG4',$cidbGredG4)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                            </div>
+                                                @endforeach
 
-                                        </div>
+                                            </optgroup>
 
-                                        <div id="cidbBidangFpanel"
-                                             class="collapse {{(old('cidbBidangF',$cidbBidangF) === 'on') ? 'show' : ''}}">
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
 
-                                            <div class="form-row">
+                                                @foreach ($cidbMeTuples as $cidb)
 
-                                                <div class="form-group col-md-6">
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG4',$cidbGredG4)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                    <label for="cidbBidangFgred">Gred</label>
+                                                @endforeach
 
-                                                    <select
-                                                        class="custom-select custom-select-sm {{$errors->has('cidbBidangFgred') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangFgred" name="cidbBidangFgred">
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === null) ? 'selected' : ''}}></option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G1') ? 'selected' : ''}}>
-                                                            G1
-                                                        </option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G2') ? 'selected' : ''}}>
-                                                            G2
-                                                        </option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G3') ? 'selected' : ''}}>
-                                                            G3
-                                                        </option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G4') ? 'selected' : ''}}>
-                                                            G4
-                                                        </option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G5') ? 'selected' : ''}}>
-                                                            G5
-                                                        </option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G6') ? 'selected' : ''}}>
-                                                            G6
-                                                        </option>
-                                                        <option {{(old('cidbBidangFgred',$cidbBidangFgred) === 'G7') ? 'selected' : ''}}>
-                                                            G7
-                                                        </option>
-                                                    </select>
+                                            </optgroup>
 
-                                                    @if($errors->has('cidbBidangFgred'))
+                                            <optgroup label="F: Fasiliti">
 
-                                                        <div class="invalid-feedback">
+                                                @foreach ($cidbFtuples as $cidb)
 
-                                                            {{$errors->first('cidbBidangFgred')}}
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG4',$cidbGredG4)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
 
-                                                        </div>
+                                                @endforeach
 
-                                                    @endif
+                                            </optgroup>
 
-                                                </div>
+                                        </select>
 
-                                                <div class="form-group col-md-6">
+                                        @if($errors->has('cidbGredG4'))
 
-                                                    <label for="cidbBidangFkod">Kod Bidang</label>
+                                            <div class="invalid-feedback">
 
-                                                    <select
-                                                        class="selectpicker form-control form-control-sm {{$errors->has('cidbBidangFkod') ? 'is-invalid' : ''}}"
-                                                        id="cidbBidangFkod" name="cidbBidangFkod[]"
-                                                        multiple data-live-search="true" data-size="7"
-                                                        data-actions-box="true"
-                                                        data-style="btn">
-
-                                                        @foreach ($cidbs as $cidb)
-
-                                                            @if ($cidb->type !== 'F')
-
-                                                                @continue
-
-                                                            @endif
-
-                                                            @if(old('cidbBidangFkod',$cidbBidangFkod) === null)
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}">{{$cidb->subtype}}</option>
-
-                                                            @else
-
-                                                                <option value="{{$cidb->id}}"
-                                                                        data-subtext="{{title_case($cidb->description)}}"
-                                                                    {{in_array($cidb->id, old('cidbBidangFkod',$cidbBidangFkod)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
-
-                                                            @endif
-
-                                                        @endforeach
-
-                                                    </select>
-
-                                                    @if($errors->has('cidbBidangFkod'))
-
-                                                        <div class="invalid-feedback">
-
-                                                            {{$errors->first('cidbBidangFkod')}}
-
-                                                        </div>
-
-                                                    @endif
-
-                                                </div>
+                                                {{$errors->first('cidbGredG4')}}
 
                                             </div>
 
-                                        </div>
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                                {{--G5--}}
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+
+                                        <label for="cidbGredG5">Gred G5</label>
+
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG5') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG5" name="cidbGredG5[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
+
+                                            <optgroup label="B: Pembinaan Bangunan">
+
+                                                @foreach ($cidbBtuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG5',$cidbGredG5)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
+
+                                                @foreach ($cidbCeTuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG5',$cidbGredG5)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
+
+                                                @foreach ($cidbMeTuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG5',$cidbGredG5)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="F: Fasiliti">
+
+                                                @foreach ($cidbFtuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG5',$cidbGredG5)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                        </select>
+
+                                        @if($errors->has('cidbGredG5'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('cidbGredG5')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                                {{--G6--}}
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+
+                                        <label for="cidbGredG6">Gred G6</label>
+
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG6') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG6" name="cidbGredG6[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
+
+                                            <optgroup label="B: Pembinaan Bangunan">
+
+                                                @foreach ($cidbBtuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG6',$cidbGredG6)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
+
+                                                @foreach ($cidbCeTuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG6',$cidbGredG6)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
+
+                                                @foreach ($cidbMeTuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG6',$cidbGredG6)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="F: Fasiliti">
+
+                                                @foreach ($cidbFtuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG6',$cidbGredG6)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                        </select>
+
+                                        @if($errors->has('cidbGredG6'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('cidbGredG6')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                                {{--G7--}}
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+
+                                        <label for="cidbGredG7">Gred G7</label>
+
+                                        <select
+                                            class="selectpicker form-control form-control-sm {{$errors->has('cidbGredG7') ? 'is-invalid' : ''}}"
+                                            id="cidbGredG7" name="cidbGredG7[]"
+                                            multiple data-live-search="true" data-size="7"
+                                            data-actions-box="true"
+                                            data-style="btn">
+
+                                            <optgroup label="B: Pembinaan Bangunan">
+
+                                                @foreach ($cidbBtuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG7',$cidbGredG7)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="CE: Pembinaan Kejuruteraan Awam">
+
+                                                @foreach ($cidbCeTuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG7',$cidbGredG7)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="ME: Mekanikal dan Elektrikal">
+
+                                                @foreach ($cidbMeTuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG7',$cidbGredG7)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                            <optgroup label="F: Fasiliti">
+
+                                                @foreach ($cidbFtuples as $cidb)
+
+                                                    <option
+                                                        value="{{$cidb->id}}"
+                                                        data-subtext="{{title_case($cidb->description)}}"
+                                                        {{in_array($cidb->id, old('cidbGredG7',$cidbGredG7)) ? 'selected' : ''}}>{{$cidb->subtype}}</option>
+
+                                                @endforeach
+
+                                            </optgroup>
+
+                                        </select>
+
+                                        @if($errors->has('cidbGredG7'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('cidbGredG7')}}
+
+                                            </div>
+
+                                        @endif
 
                                     </div>
 
@@ -1373,6 +1336,172 @@
                                                 SPKK)</label>
 
                                         </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{--Koperasi card--}}
+
+                    <div class="card bg-light mb-3">
+
+                        <div class="card-body">
+
+                            {{--Suis panel Koperasi--}}
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <div class="form-check form-check-inline">
+
+                                        <input class="form-check-input" type="checkbox" id="daftarKoperasi"
+                                               name="daftarKoperasi"
+                                               data-toggle="collapse"
+                                               data-target="#panelKoperasi" {{(old('daftarKoperasi',$daftarKoperasi) === 'on') ? 'checked' : ''}}>
+                                        <label class="form-check-label font-weight-bold" for="daftarKoperasi">Sijil
+                                            Koperasi</label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            {{--Panel Koperasi--}}
+
+                            <div class="collapse {{(old('daftarKoperasi',$daftarKoperasi) === 'on') ? 'show' : ''}}"
+                                 id="panelKoperasi">
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputKoperasi"># Pendaftaran</label>
+
+                                        <input id="inputKoperasi" name="sijilKoperasi" type="text"
+                                               class="form-control form-control-sm {{$errors->has('sijilKoperasi') ? 'is-invalid' : ''}}"
+                                               placeholder="Nombor Pendaftaran Koperasi"
+                                               value="{{old('sijilKoperasi',$sijilKoperasi)}}">
+
+                                        @if($errors->has('sijilKoperasi'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('sijilKoperasi')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputKoperasiMula">Mula</label>
+
+                                        <input id="inputKoperasiMula" name="koperasiMula" type="date"
+                                               class="form-control form-control-sm {{$errors->has('koperasiMula') ? 'is-invalid' : ''}}"
+                                               value="{{old('koperasiMula',$koperasiMula)}}">
+
+                                        @if($errors->has('koperasiMula'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('koperasiMula')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {{--Peladang card--}}
+
+                    <div class="card bg-light mb-3">
+
+                        <div class="card-body">
+
+                            {{--Suis panel Peladang--}}
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <div class="form-check form-check-inline">
+
+                                        <input class="form-check-input" type="checkbox" id="daftarPeladang"
+                                               name="daftarPeladang"
+                                               data-toggle="collapse"
+                                               data-target="#panelPeladang" {{(old('daftarPeladang',$daftarPeladang) === 'on') ? 'checked' : ''}}>
+                                        <label class="form-check-label font-weight-bold" for="daftarPeladang">Sijil
+                                            Peladang</label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            {{--Panel Peladang--}}
+
+                            <div class="collapse {{(old('daftarPeladang',$daftarPeladang) === 'on') ? 'show' : ''}}"
+                                 id="panelPeladang">
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputPeladang"># Pendaftaran</label>
+
+                                        <input id="inputPeladang" name="sijilPeladang" type="text"
+                                               class="form-control form-control-sm {{$errors->has('sijilPeladang') ? 'is-invalid' : ''}}"
+                                               placeholder="Nombor Pendaftaran Pertubuhan Peladang"
+                                               value="{{old('sijilPeladang',$daftarPeladang)}}">
+
+                                        @if($errors->has('sijilPeladang'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('sijilPeladang')}}
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+
+                                        <label for="inputPeladangMula">Mula</label>
+
+                                        <input id="inputPeladangMula" name="peladangMula" type="date"
+                                               class="form-control form-control-sm {{$errors->has('peladangMula') ? 'is-invalid' : ''}}"
+                                               value="{{old('peladangMula',$peladangMula)}}">
+
+                                        @if($errors->has('peladangMula'))
+
+                                            <div class="invalid-feedback">
+
+                                                {{$errors->first('peladangMula')}}
+
+                                            </div>
+
+                                        @endif
 
                                     </div>
 

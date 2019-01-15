@@ -52,28 +52,69 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran Alamat</h5>
+                <h5 class="card-title">Syarikat</h5>
 
                 <dl class="row">
 
+                    <dt class="col-sm-4">Pengurus</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->officer)}}</dd>
+
+                    <dt class="col-sm-4">Mykad</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->mykad)}}</dd>
+
                     <dt class="col-sm-4">Alamat</dt>
-                    <dd class="col-sm-8">{{$vendor->address}}</dd>
+                    <dd class="col-sm-8">{{$address}}</dd>
 
-                    @if($vendor->address1 !== null)
+                    <dt class="col-sm-4">Telefon Pejabat</dt>
+                    <dd class="col-sm-8">
 
-                        <dt class="col-sm-4">Alamat (1)</dt>
-                        <dd class="col-sm-8">{{$vendor->address1}}</dd>
+                        @if($vendor->telephone !== null)
 
-                    @endif
+                            {{$vendor->telephone}}
 
-                    <dt class="col-sm-4">Poskod</dt>
-                    <dd class="col-sm-8">{{$vendor->postcode}}</dd>
+                        @else
 
-                    <dt class="col-sm-4">Bandar</dt>
-                    <dd class="col-sm-8">{{$vendor->town}}</dd>
+                            <span class="badge badge-secondary">Tiada</span>
 
-                    <dt class="col-sm-4">Negeri</dt>
-                    <dd class="col-sm-8">{{$vendor->state}}</dd>
+                        @endif
+
+                    </dd>
+
+                    <dt class="col-sm-4">Telefon Bimbit</dt>
+                    <dd class="col-sm-8">
+
+                        @if($vendor->telephone1 !== null)
+
+                            {{$vendor->telephone1}}
+
+                        @else
+
+                            <span class="badge badge-secondary">Tiada</span>
+
+                        @endif
+
+                    </dd>
+
+                    <dt class="col-sm-4">Emel</dt>
+                    <dd class="col-sm-8">
+
+                        @if($vendor->email !== null)
+
+                            {{$vendor->email}}
+
+                        @else
+
+                            <span class="badge badge-secondary">Tiada</span>
+
+                        @endif
+
+                    </dd>
+
+                    <dt class="col-sm-4">Bank</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->bank)}}</dd>
+
+                    <dt class="col-sm-4"># Akaun</dt>
+                    <dd class="col-sm-8">{{title_case($vendor->bank_account)}}</dd>
 
                 </dl>
 
@@ -85,7 +126,7 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran Pendaftaran</h5>
+                <h5 class="card-title">Pendaftaran</h5>
 
                 <dl class="row">
 
@@ -118,11 +159,51 @@
                         <dt class="col-sm-4">Tempoh Sah</dt>
                         <dd class="col-sm-8">
                             {{date("d M Y", strtotime($vendor->ssm_start))}} &ndash;
-                            {{date("d M Y", strtotime($vendor->ssm_thru))}}</dd>
+                            {{$vendor->ssm_thru !== null ? date("d M Y", strtotime($vendor->ssm_thru)) : '?'}}</dd>
 
                     @else
 
                         <dt class="col-sm-4"># SSM</dt>
+                        <dd class="col-sm-8"><span class="badge badge-secondary">Tiada</span></dd>
+
+                    @endif
+
+                </dl>
+
+                <dl class="row">
+
+                    @if($vendor->koperasi_id !== null)
+
+                        <dt class="col-sm-4"># Koperasi</dt>
+                        <dd class="col-sm-8">{{$vendor->koperasi_id}}</dd>
+
+                        <dt class="col-sm-4">Mula</dt>
+                        <dd class="col-sm-8">
+                            {{date("d M Y", strtotime($vendor->koperasi_start))}}</dd>
+
+                    @else
+
+                        <dt class="col-sm-4"># Koperasi</dt>
+                        <dd class="col-sm-8"><span class="badge badge-secondary">Tiada</span></dd>
+
+                    @endif
+
+                </dl>
+
+                <dl class="row">
+
+                    @if($vendor->peladang_id !== null)
+
+                        <dt class="col-sm-4"># Peladang</dt>
+                        <dd class="col-sm-8">{{$vendor->peladang_id}}</dd>
+
+                        <dt class="col-sm-4">Mula</dt>
+                        <dd class="col-sm-8">
+                            {{date("d M Y", strtotime($vendor->peladang_start))}}</dd>
+
+                    @else
+
+                        <dt class="col-sm-4"># Peladang</dt>
                         <dd class="col-sm-8"><span class="badge badge-secondary">Tiada</span></dd>
 
                     @endif
@@ -182,68 +263,9 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran Pengurus & Bank</h5>
+                <h5 class="card-title">Pembayaran</h5>
 
-                <dl class="row">
-
-                    <dt class="col-sm-4">Pengurus</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->officer)}}</dd>
-
-                    <dt class="col-sm-4">Mykad</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->mykad)}}</dd>
-
-                    <dt class="col-sm-4">Telefon Pejabat</dt>
-                    <dd class="col-sm-8">
-
-                        @if($vendor->telephone !== null)
-
-                            {{$vendor->telephone}}
-
-                        @else
-
-                            <span class="badge badge-secondary">Tiada</span>
-
-                        @endif
-
-                    </dd>
-
-                    <dt class="col-sm-4">Telefon Bimbit</dt>
-                    <dd class="col-sm-8">
-
-                        @if($vendor->telephone1 !== null)
-
-                            {{$vendor->telephone1}}
-
-                        @else
-
-                            <span class="badge badge-secondary">Tiada</span>
-
-                        @endif
-
-                    </dd>
-
-                    <dt class="col-sm-4">Emel</dt>
-                    <dd class="col-sm-8">
-
-                        @if($vendor->email !== null)
-
-                            {{$vendor->email}}
-
-                        @else
-
-                            <span class="badge badge-secondary">Tiada</span>
-
-                        @endif
-
-                    </dd>
-
-                    <dt class="col-sm-4">Bank</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->bank)}}</dd>
-
-                    <dt class="col-sm-4"># Akaun</dt>
-                    <dd class="col-sm-8">{{title_case($vendor->bank_account)}}</dd>
-
-                </dl>
+                <p><span class="badge badge-secondary">Tiada</span></p>
 
             </div>
 
@@ -257,7 +279,7 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran CIDB</h5>
+                <h5 class="card-title">Lesen CIDB</h5>
 
                 @if ($cidbTuples->isNotEmpty())
 
@@ -271,8 +293,8 @@
 
                             <tr>
 
-                                <th scope="col">Kategori</th>
                                 <th scope="col">Gred</th>
+                                <th scope="col">Kategori</th>
                                 <th scope="col">Pengkhususan</th>
                                 <th scope="col">Keterangan</th>
 
@@ -282,36 +304,166 @@
 
                             <tbody>
 
-                            @foreach($cidbTuples->groupBy('type')->keys() as $type)
+                            @if($cidbTuples->contains('grade','G1'))
 
-                                @foreach($cidbTuples->where('type',$type) as $cidbTuple)
+                                @foreach($cidbTuples->where('grade','G1')->sortBy('subtype') as $item)
 
-                                    @if($cidbTuples->where('type',$type)->first() === $cidbTuple)
+                                    <tr>
 
-                                        <tr>
+                                        @if($cidbTuples->where('grade','G1')->sortBy('subtype')->first() === $item)
 
                                             <th scope="row"
-                                                rowspan="{{$cidbTuples->where('type',$type)->count()}}">{{$cidbTuple->type}}</th>
-                                            <td rowspan="{{$cidbTuples->where('type',$type)->count()}}">{{$cidbTuple->grade}}</td>
-                                            <td>{{$cidbTuple->subtype}}</td>
-                                            <td>{{title_case($cidbTuple->description)}}</td>
+                                                rowspan="{{$cidbTuples->where('grade','G1')->count()}}">{{$item->grade}}</th>
 
-                                        </tr>
+                                        @endif
 
-                                    @else
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
 
-                                        <tr>
-
-                                            <td>{{$cidbTuple->subtype}}</td>
-                                            <td>{{title_case($cidbTuple->description)}}</td>
-
-                                        </tr>
-
-                                    @endif
+                                    </tr>
 
                                 @endforeach
 
-                            @endforeach
+                            @endif
+
+                            @if($cidbTuples->contains('grade','G2'))
+
+                                @foreach($cidbTuples->where('grade','G2')->sortBy('subtype') as $item)
+
+                                    <tr>
+
+                                        @if($cidbTuples->where('grade','G2')->sortBy('subtype')->first() === $item)
+
+                                            <th scope="row"
+                                                rowspan="{{$cidbTuples->where('grade','G2')->count()}}">{{$item->grade}}</th>
+
+                                        @endif
+
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endif
+
+                            @if($cidbTuples->contains('grade','G3'))
+
+                                @foreach($cidbTuples->where('grade','G3')->sortBy('subtype') as $item)
+
+                                    <tr>
+
+                                        @if($cidbTuples->where('grade','G3')->sortBy('subtype')->first() === $item)
+
+                                            <th scope="row"
+                                                rowspan="{{$cidbTuples->where('grade','G3')->count()}}">{{$item->grade}}</th>
+
+                                        @endif
+
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endif
+
+                            @if($cidbTuples->contains('grade','G4'))
+
+                                @foreach($cidbTuples->where('grade','G4')->sortBy('subtype') as $item)
+
+                                    <tr>
+
+                                        @if($cidbTuples->where('grade','G4')->sortBy('subtype')->first() === $item)
+
+                                            <th scope="row"
+                                                rowspan="{{$cidbTuples->where('grade','G4')->count()}}">{{$item->grade}}</th>
+
+                                        @endif
+
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endif
+
+                            @if($cidbTuples->contains('grade','G5'))
+
+                                @foreach($cidbTuples->where('grade','G5')->sortBy('subtype') as $item)
+
+                                    <tr>
+
+                                        @if($cidbTuples->where('grade','G5')->sortBy('subtype')->first() === $item)
+
+                                            <th scope="row"
+                                                rowspan="{{$cidbTuples->where('grade','G5')->count()}}">{{$item->grade}}</th>
+
+                                        @endif
+
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endif
+
+                            @if($cidbTuples->contains('grade','G6'))
+
+                                @foreach($cidbTuples->where('grade','G6')->sortBy('subtype') as $item)
+
+                                    <tr>
+
+                                        @if($cidbTuples->where('grade','G6')->sortBy('subtype')->first() === $item)
+
+                                            <th scope="row"
+                                                rowspan="{{$cidbTuples->where('grade','G6')->count()}}">{{$item->grade}}</th>
+
+                                        @endif
+
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endif
+
+                            @if($cidbTuples->contains('grade','G7'))
+
+                                @foreach($cidbTuples->where('grade','G7')->sortBy('subtype') as $item)
+
+                                    <tr>
+
+                                        @if($cidbTuples->where('grade','G7')->sortBy('subtype')->first() === $item)
+
+                                            <th scope="row"
+                                                rowspan="{{$cidbTuples->where('grade','G7')->count()}}">{{$item->grade}}</th>
+
+                                        @endif
+
+                                        <th>{{$item->type}}</th>
+                                        <td>{{$item->subtype}}</td>
+                                        <td>{{title_case($item->description)}}</td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            @endif
 
                             </tbody>
 
@@ -334,7 +486,7 @@
 
             <div class="card-body">
 
-                <h5 class="card-title">Butiran MOF</h5>
+                <h5 class="card-title">Lesen Kementerian Kewangan</h5>
 
                 @if ($mofTuples->isNotEmpty())
 
@@ -342,7 +494,7 @@
 
                         <table class="table table-striped table-bordered table-sm">
 
-                            <caption>{{'('.$mofTuples->count().' bidang MOF)'}}</caption>
+                            <caption>{{'('.$mofTuples->count().' bidang Kementerian Kewangan)'}}</caption>
 
                             <thead>
 

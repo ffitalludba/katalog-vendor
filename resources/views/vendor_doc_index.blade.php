@@ -30,7 +30,8 @@
 
                             <th scope="col">Syarikat</th>
                             <th scope="col">Pengurus</th>
-                            <th scope="col">Telefon</th>
+                            <th scope="col">Tel. Pej.</th>
+                            <th scope="col">Tel. Bimbit</th>
                             <th scope="col">Emel</th>
 
                         </tr>
@@ -48,6 +49,7 @@
                                 </th>
                                 <td>{{title_case($vendor->officer)}}</td>
                                 <td>{{$vendor->telephone}}</td>
+                                <td>{{$vendor->telephone1}}</td>
                                 <td>{{$vendor->email}}</td>
 
                             </tr>
